@@ -1,0 +1,11 @@
+{
+  "name": "martin-cox-portfolio",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd stylish-portfolio-2025 && bun install && bun run build && cp -r .next ../",
+    "dev": "cd stylish-portfolio-2025 && bun run dev"
+  },
+  "dependencies": {
+    "@netlify/plugin-nextjs": "^5.11.2"
+  }
+}
