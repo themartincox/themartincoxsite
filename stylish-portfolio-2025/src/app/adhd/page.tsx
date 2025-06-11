@@ -15,9 +15,9 @@ const diagnosisJourney = [
   {
     stage: 'Recognition',
     title: 'The Lightbulb Moment',
-    description: 'Learning about ADHD in adults and recognizing the patterns in my own behavior and thinking.',
+    description: 'Learning about ADHD in adults and recognising the patterns in my own behaviour and thinking.',
     challenges: ['Research and self-reflection', 'Connecting past experiences', 'Understanding family patterns', 'Seeking professional assessment'],
-    insight: 'Everything suddenly made sense - the cycling obsession, business ideas, and creative energy.'
+    insight: 'Everything suddenly made sense - the cycling obsession, business ideas, and creative energy. The funk and lack of what I thought was motivation...'
   },
   {
     stage: 'Diagnosis',
@@ -29,7 +29,7 @@ const diagnosisJourney = [
   {
     stage: 'Integration',
     title: 'Embracing the Advantage',
-    description: 'Learning to work with my ADHD brain rather than against it, optimizing for strengths.',
+    description: 'Learning to work with my ADHD brain rather than against it, optimising for strengths.',
     challenges: ['Developing new strategies', 'Medication considerations', 'Lifestyle adjustments', 'Sharing with family/team'],
     insight: 'ADHD became my entrepreneurial superpower when I learned to harness it properly.'
   }
@@ -117,10 +117,10 @@ const resources = [
   {
     category: 'Books & Learning',
     items: [
-      { name: 'Driven to Distraction by Edward Hallowell', url: 'https://www.amazon.com/Driven-Distraction-Recognizing-Attention-Childhood/dp/0307743853' },
-      { name: 'The ADHD Advantage by Dale Archer', url: 'https://www.amazon.com/ADHD-Advantage-What-Thought-Disorder/dp/1583335544' },
-      { name: 'Smart Moves by Carla Hannaford', url: 'https://www.amazon.com/Smart-Moves-Learning-Not-Head/dp/0915556375' },
-      { name: 'ADHD 2.0 by Edward Hallowell and John Ratey', url: 'https://www.amazon.com/ADHD-2-0-Essential-Strategies-Distraction/dp/0399178732' }
+      { name: 'Driven to Distraction by Edward Hallowell', url: 'https://amzn.to/4dYAsOl' },
+      { name: 'How to ADHD by Jessica McCabe', url: 'https://amzn.to/43GrLVx' },
+      { name: 'Smart Moves by Carla Hannaford', url: 'https://amzn.to/45fKBnB' },
+      { name: 'ADHD 2.0 by Edward Hallowell and John Ratey', url: 'https://amzn.to/43XwctI' }
     ]
   },
   {
