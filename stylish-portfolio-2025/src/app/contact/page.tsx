@@ -85,31 +85,62 @@ export default function ContactPage() {
               <Card className="p-8 bg-gradient-to-br from-card to-card/50 border-0 shadow-lg">
                 <h2 className="text-2xl font-display font-semibold mb-6">Send a Message</h2>
 
-                <form className="space-y-6">
+                <form
+                  name="contact"
+                  method="POST"
+                  data-netlify="true"
+                  className="space-y-6"
+                >
+                  <input type="hidden" name="form-name" value="contact" />
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium mb-2">First Name *</label>
-                      <Input placeholder="Your first name" />
+                      <label htmlFor="firstName" className="block text-sm font-medium mb-2">First Name *</label>
+                      <Input
+                        id="firstName"
+                        name="firstName"
+                        placeholder="Your first name"
+                        required
+                      />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Last Name *</label>
-                      <Input placeholder="Your last name" />
+                      <label htmlFor="lastName" className="block text-sm font-medium mb-2">Last Name *</label>
+                      <Input
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Your last name"
+                        required
+                      />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Email Address *</label>
-                    <Input type="email" placeholder="your.email@company.com" />
+                    <label htmlFor="email" className="block text-sm font-medium mb-2">Email Address *</label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="your.email@company.com"
+                      required
+                    />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Company/Organization</label>
-                    <Input placeholder="Your company name (optional)" />
+                    <label htmlFor="company" className="block text-sm font-medium mb-2">Company/Organization</label>
+                    <Input
+                      id="company"
+                      name="company"
+                      placeholder="Your company name (optional)"
+                    />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Project Type</label>
-                    <select className="w-full p-3 border border-border rounded-lg bg-background">
+                    <label htmlFor="projectType" className="block text-sm font-medium mb-2">Project Type</label>
+                    <select
+                      id="projectType"
+                      name="projectType"
+                      className="w-full p-3 border border-border rounded-lg bg-background"
+                    >
                       <option value="">Select a project type</option>
                       {projectTypes.map((type) => (
                         <option key={type} value={type}>{type}</option>
@@ -118,8 +149,12 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Budget Range</label>
-                    <select className="w-full p-3 border border-border rounded-lg bg-background">
+                    <label htmlFor="budget" className="block text-sm font-medium mb-2">Budget Range</label>
+                    <select
+                      id="budget"
+                      name="budget"
+                      className="w-full p-3 border border-border rounded-lg bg-background"
+                    >
                       <option value="">Select budget range</option>
                       <option value="5k-10k">$5,000 - $10,000</option>
                       <option value="10k-25k">$10,000 - $25,000</option>
@@ -130,8 +165,12 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Timeline</label>
-                    <select className="w-full p-3 border border-border rounded-lg bg-background">
+                    <label htmlFor="timeline" className="block text-sm font-medium mb-2">Timeline</label>
+                    <select
+                      id="timeline"
+                      name="timeline"
+                      className="w-full p-3 border border-border rounded-lg bg-background"
+                    >
                       <option value="">When do you need this completed?</option>
                       <option value="asap">ASAP (Rush job)</option>
                       <option value="1month">Within 1 month</option>
@@ -141,19 +180,26 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Project Details *</label>
+                    <label htmlFor="projectDetails" className="block text-sm font-medium mb-2">Project Details *</label>
                     <Textarea
+                      id="projectDetails"
+                      name="projectDetails"
                       placeholder="Tell me about your project, goals, challenges, and vision. The more details you provide, the better I can understand how to help you."
                       className="min-h-[150px]"
+                      required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">How did you hear about me?</label>
-                    <Input placeholder="Referral, search, social media, etc." />
+                    <label htmlFor="referralSource" className="block text-sm font-medium mb-2">How did you hear about me?</label>
+                    <Input
+                      id="referralSource"
+                      name="referralSource"
+                      placeholder="Referral, search, social media, etc."
+                    />
                   </div>
 
-                  <Button className="w-full rounded-full py-4 text-lg">
+                  <Button type="submit" className="w-full rounded-full py-4 text-lg">
                     Send Message
                   </Button>
 

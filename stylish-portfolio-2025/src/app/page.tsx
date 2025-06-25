@@ -167,12 +167,12 @@ export default function HomePage() {
           <motion.div
             className="w-6 h-10 border-2 border-accent rounded-full flex justify-center"
             animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
           >
             <motion.div
               className="w-1 h-3 bg-accent rounded-full mt-2"
               animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
             />
           </motion.div>
         </motion.div>
