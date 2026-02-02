@@ -24,17 +24,17 @@ const Navigation = () => {
     { name: 'Journey', href: '/about' },
     { name: 'Cycling', href: '/cycling' },
     { name: 'ADHD', href: '/adhd' },
+    { name: 'Tutoring', href: '/tutoring' },
     { name: 'Blog', href: '/blog' },
     { name: 'Connect', href: '/contact' },
   ];
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? 'bg-background/80 backdrop-blur-xl border-b border-border/50'
           : 'bg-transparent'
-      }`}
+        }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}

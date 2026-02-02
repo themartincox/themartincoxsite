@@ -22,6 +22,7 @@ const Footer = () => {
     ],
     resources: [
       { name: 'Blog', href: '/blog' },
+      { name: 'Tutoring', href: '/tutoring' },
       { name: 'Design Tips', href: '/blog' },
       { name: 'Case Studies', href: '/portfolio' },
       { name: 'Downloads', href: '#' },
