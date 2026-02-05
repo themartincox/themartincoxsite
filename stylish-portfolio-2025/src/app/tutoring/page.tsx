@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { LevelData, LocationData, LOCATIONS, LEVELS } from '@/lib/tutoring-data';
 import Link from 'next/link';
+import TutoringContactForm from '@/components/tutoring/TutoringContactForm';
 
 const defaultLevels = [
   { level: 'GCSE', description: 'Building fundamental business knowledge and exam confidence.', icon: '📚' },
@@ -129,7 +130,11 @@ export default function TutoringPage({ level, location }: TutoringPageProps) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <Button size="lg" className="rounded-full px-12 py-6 text-lg bg-secondary hover:bg-secondary/90">
+            <Button
+              size="lg"
+              className="rounded-full px-12 py-6 text-lg bg-secondary hover:bg-secondary/90"
+              onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Book {level ? level.title : 'a Session'}
             </Button>
           </motion.div>
@@ -303,7 +308,11 @@ export default function TutoringPage({ level, location }: TutoringPageProps) {
             Whether you're struggling with concepts or aiming for top grades, let's build your path to success in {cityName}.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Button size="lg" className="rounded-full px-12 py-6 text-lg bg-secondary hover:bg-secondary/90">
+            <Button
+              size="lg"
+              className="rounded-full px-12 py-6 text-lg bg-secondary hover:bg-secondary/90"
+              onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Book {levelName} Tutoring
             </Button>
             <Button
@@ -317,6 +326,9 @@ export default function TutoringPage({ level, location }: TutoringPageProps) {
           </div>
         </div>
       </section>
+
+      {/* Specific Tutoring Contact Form */}
+      <TutoringContactForm level={level} location={location} />
     </main>
   );
 }
