@@ -44,9 +44,17 @@ export default function TutoringContactForm({ level, location }: TutoringContact
                             name="tutoring-contact"
                             method="POST"
                             data-netlify="true"
+                            data-netlify-honeypot="bot-field"
                             className="space-y-6"
                         >
                             <input type="hidden" name="form-name" value="tutoring-contact" />
+
+                            {/* Netlify Honeypot Field */}
+                            <p className="hidden">
+                                <label>
+                                    Don't fill this out if you're human: <input name="bot-field" />
+                                </label>
+                            </p>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">

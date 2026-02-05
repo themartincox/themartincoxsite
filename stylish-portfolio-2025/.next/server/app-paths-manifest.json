@@ -1,17 +1,17 @@
 {
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/robots.txt/route": "app/robots.txt/route.js",
-  "/sitemap.xml/route": "app/sitemap.xml/route.js",
   "/blog/[slug]/page": "app/blog/[slug]/page.js",
   "/adhd/page": "app/adhd/page.js",
-  "/page": "app/page.js",
   "/about/page": "app/about/page.js",
+  "/contact/page": "app/contact/page.js",
   "/blog/page": "app/blog/page.js",
   "/book-call/page": "app/book-call/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/portfolio/project/page": "app/portfolio/project/page.js",
+  "/page": "app/page.js",
   "/cycling/page": "app/cycling/page.js",
-  "/tutoring/page": "app/tutoring/page.js",
+  "/portfolio/project/page": "app/portfolio/project/page.js",
   "/portfolio/page": "app/portfolio/page.js",
+  "/tutoring/page": "app/tutoring/page.js",
   "/tutoring/[slug]/page": "app/tutoring/[slug]/page.js"
 }
