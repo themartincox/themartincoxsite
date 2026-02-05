@@ -3,7 +3,7 @@ import { getAllSlugs } from '@/lib/tutoring-data';
 import { blogPosts } from '@/lib/blog-data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://themartincox.com'; // Replace with your actual domain
+    const baseUrl = 'https://themartincox.co.uk'; // Corrected to .co.uk
 
     // Base static pages
     const staticPages = [

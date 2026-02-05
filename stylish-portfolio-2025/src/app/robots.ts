@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://themartincox.com/sitemap.xml',
+        sitemap: 'https://themartincox.co.uk/sitemap.xml',
     };
 }
