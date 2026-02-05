@@ -1,0 +1,15 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/about/page": "/about",
+  "/blog/[slug]/page": "/blog/[slug]",
+  "/book-call/page": "/book-call",
+  "/blog/page": "/blog",
+  "/page": "/",
+  "/portfolio/page": "/portfolio",
+  "/adhd/page": "/adhd",
+  "/contact/page": "/contact",
+  "/portfolio/project/page": "/portfolio/project",
+  "/cycling/page": "/cycling",
+  "/tutoring/page": "/tutoring",
+  "/tutoring/[slug]/page": "/tutoring/[slug]"
+}
