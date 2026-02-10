@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netlify Forms</title>
+</head>
+<body>
+    <!-- Main Contact Form -->
+    <form name="contact" data-netlify="true" hidden>
+        <input type="text" name="firstName" />
+        <input type="text" name="lastName" />
+        <input type="email" name="email" />
+        <input type="text" name="company" />
+        <select name="projectType">
+            <option value="Marketing Strategy & Consultancy"></option>
+            <option value="Business Development"></option>
+            <option value="Brand Strategy"></option>
+            <option value="Digital Marketing"></option>
+            <option value="ADHD Coaching & Mentoring"></option>
+            <option value="Cycling Industry Projects"></option>
+            <option value="E-commerce Development"></option>
+            <option value="Other"></option>
+        </select>
+        <select name="budget">
+            <option value="5k-10k"></option>
+            <option value="10k-25k"></option>
+            <option value="25k-50k"></option>
+            <option value="50k+"></option>
+            <option value="discuss"></option>
+        </select>
+        <select name="timeline">
+            <option value="asap"></option>
+            <option value="1month"></option>
+            <option value="2-3months"></option>
+            <option value="flexible"></option>
+        </select>
+        <textarea name="projectDetails"></textarea>
+        <input type="text" name="referralSource" />
+    </form>
+
+    <!-- Tutoring Contact Form -->
+    <form name="tutoring-contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+        <input type="text" name="bot-field" />
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <input type="text" name="phone" />
+        <input type="text" name="subject" />
+        <input type="text" name="level" />
+        <input type="text" name="location" />
+        <textarea name="message"></textarea>
+    </form>
+</body>
+</html>

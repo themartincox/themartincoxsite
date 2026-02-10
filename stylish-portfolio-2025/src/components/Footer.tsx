@@ -108,8 +108,8 @@ const Footer = () => {
               <div className="space-y-3 text-sm text-white/60">
                 <div className="flex items-center gap-3">
                   <span>📧</span>
-                  <a href="mailto:hello@themartincox.co.uk" className="hover:text-white transition-colors duration-200">
-                    hello@themartincox.co.uk
+                  <a href="mailto:martin@postino.cc" className="hover:text-white transition-colors duration-200">
+                    martin@postino.cc
                   </a>
                 </div>
                 <div className="flex items-center gap-3">

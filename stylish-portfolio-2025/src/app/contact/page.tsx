@@ -11,7 +11,7 @@ const contactMethods = [
     icon: '📧',
     title: 'Email',
     description: 'Send me a message and I\'ll respond within 24 hours',
-    value: 'hello@themartincox.co.uk',
+    value: 'martin@postino.cc',
     action: 'Send Email'
   },
   {
