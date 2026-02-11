@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const cityName = location?.name || 'Nottingham';
     const levelName = level?.title || 'Business';
 
-    const title = `Expert ${levelName} Tutoring in ${cityName} | Martin Cox`;
-    const description = level?.description || `Expert private business studies tutoring in ${cityName} and online. GCSE, A-Level, Degree, and Post-grad levels. Specialized support for ADHD students.`;
+    const title = `Top-Rated ${levelName} Tutoring in ${cityName} | Martin Cox`;
+    const description = level?.description || `Top-rated private business studies tutoring in ${cityName} and online. GCSE, A-Level, Degree, and Post-graduate levels. Specialised support for ADHD students.`;
 
     return {
         title,
