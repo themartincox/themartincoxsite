@@ -57,13 +57,57 @@ a { color:inherit; text-decoration:none; }
 .nav-link.t2.active { background:var(--t2); }
 .nav-link.t3.active { background:var(--t3); }
 .nav-link.t4.active { background:var(--t4); }
-.nav-right { display:flex; gap:8px; flex-shrink:0; }
+.nav-right { display:flex; gap:8px; flex-shrink:0; align-items:center; }
 .nav-btn {
   padding:6px 10px; border-radius:6px; cursor:pointer; font-size:.78em;
   border:1px solid rgba(255,255,255,.3); background:transparent; color:#fff;
   transition:all .2s;
 }
 .nav-btn:hover { background:rgba(255,255,255,.2); }
+/* Hamburger */
+.nav-hamburger {
+  display:none; flex-direction:column; gap:5px; cursor:pointer;
+  background:none; border:none; padding:8px; flex-shrink:0;
+}
+.nav-hamburger span {
+  display:block; width:22px; height:2px; background:#fff;
+  border-radius:2px; transition:all .25s;
+}
+/* Mobile nav dropdown */
+@media(max-width:768px) {
+  .nav-logo span { display:none; }
+  .nav-links {
+    display:none; flex-direction:column; gap:4px;
+    position:fixed; top:56px; left:0; right:0;
+    background:var(--dark); padding:12px 16px 16px;
+    box-shadow:0 8px 24px rgba(0,0,0,.4);
+    z-index:999; border-top:1px solid rgba(255,255,255,.1);
+    max-height:calc(100vh - 56px); overflow-y:auto;
+  }
+  .nav-links.open { display:flex; }
+  .nav-link { font-size:.92em; padding:12px 16px; border-radius:10px; }
+  .nav-hamburger { display:flex; }
+  .nav-right .nav-btn[onclick="toggleA11y()"] { font-size:.72em; padding:5px 8px; }
+  .content { padding:16px 12px; }
+  .hero { padding:28px 16px; }
+  .hero h1 { font-size:1.6em; }
+  .hero p { font-size:.9em; }
+  .tool-container { padding:16px; }
+  .tool-header h3 { font-size:1em; }
+  .slider-group label { font-size:.85em; flex-wrap:wrap; gap:4px; }
+  .tool-controls { gap:12px; }
+  .tool-results .result-row { flex-wrap:wrap; gap:4px; }
+  .grid-3, .grid-4 { grid-template-columns:1fr 1fr !important; }
+  .fc-term { font-size:1.2em; }
+  #contrib-prod-0, #contrib-prod-1, #contrib-prod-2 { /* handled by grid override */ }
+}
+@media(max-width:480px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns:1fr !important; }
+  .tool-layout { grid-template-columns:1fr !important; }
+  .nav-link { font-size:.88em; padding:11px 14px; }
+  .tool-container { padding:12px; margin-bottom:16px; }
+  .hero h1 { font-size:1.4em; }
+}
 
 /* ═══ ACCESSIBILITY PANEL ═══ */
 .a11y-panel {
@@ -123,6 +167,13 @@ a { color:inherit; text-decoration:none; }
 .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
 @media(max-width:900px) { .grid-2,.grid-3,.grid-4 { grid-template-columns:1fr; } }
 @media(max-width:600px) { .grid-2 { grid-template-columns:1fr; } }
+/* Tool jump button */
+.tool-jump-btn {
+  padding:5px 10px; border-radius:6px; font-size:.75em; cursor:pointer;
+  border:1px solid var(--border); background:var(--bg); color:var(--text);
+  font-weight:500; transition:all .15s; white-space:nowrap;
+}
+.tool-jump-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
 
 /* ═══ THEME CARDS (HOME) ═══ */
 .theme-card {
@@ -378,23 +429,28 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
 </div>
 
 <!-- ═══════════════════ NAVIGATION ═══════════════════ -->
-<nav class="nav-bar">
-  <div class="nav-logo" onclick="showPage('home')">
+<nav class="nav-bar" id="main-nav">
+  <div class="nav-logo" onclick="showPage('home');closeNav()">
     📚 <span>A-Level Business</span>
   </div>
-  <div class="nav-links">
-    <button class="nav-link" id="nav-home" onclick="showPage('home')">Home</button>
-    <button class="nav-link t1" id="nav-t1" onclick="showPage('theme1')">📊 Theme 1</button>
-    <button class="nav-link t2" id="nav-t2" onclick="showPage('theme2')">💰 Theme 2</button>
-    <button class="nav-link t3" id="nav-t3" onclick="showPage('theme3')">🎯 Theme 3</button>
-    <button class="nav-link t4" id="nav-t4" onclick="showPage('theme4')">🌍 Theme 4</button>
-    <button class="nav-link" id="nav-glossary" onclick="showPage('glossary')">🔍 Glossary</button>
-    <button class="nav-link" id="nav-tools" onclick="showPage('tools')">🛠️ Tools</button>
-    <button class="nav-link" id="nav-flashcards" onclick="showPage('flashcards')">🃏 Flashcards</button>
-    <button class="nav-link" id="nav-examtech" onclick="showPage('examtech')">🎓 Exam Skills</button>
+  <div class="nav-links" id="nav-links-dropdown">
+    <button class="nav-link" id="nav-home" onclick="showPage('home');closeNav()">Home</button>
+    <button class="nav-link t1" id="nav-t1" onclick="showPage('theme1');closeNav()">📊 Theme 1</button>
+    <button class="nav-link t2" id="nav-t2" onclick="showPage('theme2');closeNav()">💰 Theme 2</button>
+    <button class="nav-link t3" id="nav-t3" onclick="showPage('theme3');closeNav()">🎯 Theme 3</button>
+    <button class="nav-link t4" id="nav-t4" onclick="showPage('theme4');closeNav()">🌍 Theme 4</button>
+    <button class="nav-link" id="nav-glossary" onclick="showPage('glossary');closeNav()">🔍 Glossary</button>
+    <button class="nav-link" id="nav-tools" onclick="showPage('tools');closeNav()">🛠️ Tools</button>
+    <button class="nav-link" id="nav-flashcards" onclick="showPage('flashcards');closeNav()">🃏 Flashcards</button>
+    <button class="nav-link" id="nav-examtech" onclick="showPage('examtech');closeNav()">🎓 Exam Skills</button>
+    <button class="nav-link" id="nav-progress" onclick="showPage('progress');closeNav()">📈 Progress</button>
   </div>
   <div class="nav-right">
+    <button class="nav-btn" onclick="showPage('progress');closeNav()" title="My Progress" style="font-size:.78em;">📈 Progress</button>
     <button class="nav-btn" onclick="toggleA11y()">♿ Access</button>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -415,6 +471,9 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
         <div class="stat-block"><div class="stat-num" style="color:#f57f17">3</div><div class="stat-label">Exam papers</div></div>
       </div>
     </div>
+
+    <!-- Live progress banner (populated by JS) -->
+    <div id="home-progress-banner" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:.9em;"></div>
 
     <!-- Exam papers quick reference -->
     <p class="section-label">Exam structure</p>
@@ -552,17 +611,141 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
 <div class="page" id="page-tools">
   <div class="hero" style="background:linear-gradient(135deg,#1b5e20,#2e7d32); padding:32px;">
     <h2>🛠️ Interactive Tools</h2>
-    <p>Work through the numbers yourself. Every tool is linked to the relevant section of the specification.</p>
+    <p>Work through the numbers yourself. Every tool is linked to the relevant section of the specification. Tools are ordered by theme — T1 through T4.</p>
+  </div>
+  <!-- Tool Jump Nav -->
+  <div style="background:var(--card);border-bottom:1px solid var(--border);padding:12px 20px;">
+    <div style="font-size:.75em;color:var(--muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Jump to tool:</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+      <span style="font-size:.72em;font-weight:700;color:#1565c0;align-self:center;margin-right:4px;">T1</span>
+      <button onclick="jumpToTool('tool-supdem')" class="tool-jump-btn">1. Supply &amp; Demand</button>
+      <button onclick="jumpToTool('tool-ped')" class="tool-jump-btn">2. PED</button>
+      <span style="font-size:.72em;font-weight:700;color:#c62828;align-self:center;margin:0 4px;">T2</span>
+      <button onclick="jumpToTool('tool-break-even')" class="tool-jump-btn">3. Break-Even</button>
+      <button onclick="jumpToTool('tool-cashflow')" class="tool-jump-btn">4. Cash Flow</button>
+      <button onclick="jumpToTool('tool-contribution')" class="tool-jump-btn">5. Contribution</button>
+      <button onclick="jumpToTool('tool-variance')" class="tool-jump-btn">6. Budget Variance</button>
+      <button onclick="jumpToTool('tool-dtree')" class="tool-jump-btn">7. Decision Tree</button>
+      <button onclick="jumpToTool('tool-stock')" class="tool-jump-btn">8. Stock Control</button>
+      <span style="font-size:.72em;font-weight:700;color:#2e7d32;align-self:center;margin:0 4px;">T3</span>
+      <button onclick="jumpToTool('tool-ratios')" class="tool-jump-btn">9. Fin. Ratios</button>
+      <button onclick="jumpToTool('tool-invest')" class="tool-jump-btn">10. Investment</button>
+      <button onclick="jumpToTool('tool-ansoff')" class="tool-jump-btn">11. Ansoff</button>
+      <button onclick="jumpToTool('tool-boston')" class="tool-jump-btn">12. Boston Matrix</button>
+      <button onclick="jumpToTool('tool-pl')" class="tool-jump-btn">13. P&amp;L</button>
+      <button onclick="jumpToTool('tool-bs')" class="tool-jump-btn">14. Balance Sheet</button>
+      <button onclick="jumpToTool('tool-depreciation')" class="tool-jump-btn">15. Depreciation</button>
+      <button onclick="jumpToTool('tool-wc')" class="tool-jump-btn">16. Working Capital</button>
+      <span style="font-size:.72em;font-weight:700;color:#e65100;align-self:center;margin:0 4px;">T4</span>
+      <button onclick="jumpToTool('tool-exchange')" class="tool-jump-btn">17. Exchange Rate</button>
+    </div>
   </div>
   <div class="content">
 
-    <!-- TOOL 1: Break-Even Calculator -->
+    <!-- THEME SECTION HEADER -->
+    <div style="background:linear-gradient(90deg,#1565c022,transparent);border-left:4px solid #1565c0;border-radius:0 12px 12px 0;padding:14px 20px;margin:32px 0 20px;">
+      <div style="font-size:1.05em;font-weight:800;color:#1565c0;">Theme 1 — Marketing &amp; People</div>
+    </div>
+
+    <div class="tool-container" id="tool-supdem">
+      <div class="tool-header">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:1.6em">📈</span>
+          <div><h3>Tool 1 — Supply &amp; Demand Diagram Builder</h3>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+              <span class="chip chip-blue">Theme 1.2</span><span class="chip chip-orange">Market Analysis</span>
+            </div>
+          </div>
+        </div>
+        <p>Click the shift buttons to move the demand or supply curve. Watch how equilibrium price and quantity change, and read the explanation of what caused it.</p>
+      </div>
+      <div class="tool-layout">
+        <div>
+          <svg id="sdSVG" viewBox="0 0 400 340" style="width:100%;max-width:420px;background:#fafafa;border-radius:10px;border:1px solid var(--border);"></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="font-size:.85em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);">Shift demand curve</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="fc-btn" onclick="shiftSD('D',1)" style="border-color:#e53935;color:#e53935;">↗ Demand increase</button>
+            <button class="fc-btn" onclick="shiftSD('D',-1)" style="border-color:#5c6bc0;color:#5c6bc0;">↙ Demand decrease</button>
+          </div>
+          <div style="font-size:.85em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);">Shift supply curve</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="fc-btn" onclick="shiftSD('S',1)" style="border-color:#43a047;color:#43a047;">↗ Supply increase</button>
+            <button class="fc-btn" onclick="shiftSD('S',-1)" style="border-color:#e65100;color:#e65100;">↙ Supply decrease</button>
+          </div>
+          <button class="fc-btn" onclick="resetSD()" style="margin-top:4px;">↺ Reset</button>
+          <div class="tool-results" style="margin-top:8px;">
+            <div class="result-row"><span class="result-label">Equilibrium Price (P*)</span><span class="result-value" id="sd-price">P₀</span></div>
+            <div class="result-row"><span class="result-label">Equilibrium Quantity (Q*)</span><span class="result-value" id="sd-qty">Q₀</span></div>
+            <div class="result-row"><span class="result-label">Price change</span><span class="result-value" id="sd-pchange">—</span></div>
+            <div class="result-row"><span class="result-label">Quantity change</span><span class="result-value" id="sd-qchange">—</span></div>
+          </div>
+          <div id="sd-explanation" style="padding:14px;background:var(--bg);border-radius:8px;font-size:.88em;line-height:1.7;border:1px solid var(--border);">
+            Start by shifting a curve to see the market analysis.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-container" id="tool-ped">
+      <div class="tool-header">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:1.6em">📉</span>
+          <div>
+            <h3>Tool 2 — Price Elasticity of Demand (PED) Calculator</h3>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+              <span class="chip chip-blue">Theme 1.2</span>
+              <span class="chip chip-orange">Market Analysis</span>
+            </div>
+          </div>
+        </div>
+        <p>Enter a price change and see how demand responds. Understand what this means for revenue and pricing strategy.</p>
+      </div>
+      <div class="tool-layout">
+        <div class="tool-controls">
+          <div class="slider-group">
+            <label>% change in price <span id="ped-dp-val">+10%</span></label>
+            <input type="range" id="ped-dp" min="-30" max="30" step="1" value="10" oninput="updatePED()">
+          </div>
+          <div class="slider-group">
+            <label>% change in quantity demanded <span id="ped-dq-val">−8%</span></label>
+            <input type="range" id="ped-dq" min="-50" max="50" step="1" value="-8" oninput="updatePED()">
+          </div>
+          <div class="slider-group">
+            <label>Current price (£) <span id="ped-p-val">£10.00</span></label>
+            <input type="range" id="ped-p" min="1" max="100" step="1" value="10" oninput="updatePED()">
+          </div>
+          <div class="slider-group">
+            <label>Current sales (units) <span id="ped-q-val">1,000</span></label>
+            <input type="range" id="ped-q" min="100" max="10000" step="100" value="1000" oninput="updatePED()">
+          </div>
+          <div class="tool-results">
+            <div class="result-row"><span class="result-label">PED value</span><span class="result-value" id="ped-val">−0.8</span></div>
+            <div class="result-row"><span class="result-label">Elasticity type</span><span class="result-value" id="ped-type">Price Inelastic</span></div>
+            <div class="result-row"><span class="result-label">Revenue before</span><span class="result-value" id="ped-rev-before">£10,000</span></div>
+            <div class="result-row"><span class="result-label">Revenue after</span><span class="result-value green" id="ped-rev-after">£10,120</span></div>
+            <div class="result-row"><span class="result-label">Revenue change</span><span class="result-value green" id="ped-rev-change">+£120</span></div>
+          </div>
+        </div>
+        <div>
+          <canvas id="pedChart" width="400" height="380"></canvas>
+          <div id="ped-interpretation" style="margin-top:16px;padding:14px;border-radius:8px;font-size:.88em;line-height:1.65;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THEME SECTION HEADER -->
+    <div style="background:linear-gradient(90deg,#c6282822,transparent);border-left:4px solid #c62828;border-radius:0 12px 12px 0;padding:14px 20px;margin:32px 0 20px;">
+      <div style="font-size:1.05em;font-weight:800;color:#c62828;">Theme 2 — Managing Business Activities</div>
+    </div>
+
     <div class="tool-container" id="tool-break-even">
       <div class="tool-header">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
           <span style="font-size:1.6em">📊</span>
           <div>
-            <h3>Break-Even Analysis Calculator</h3>
+            <h3>Tool 3 — Break-Even Analysis Calculator</h3>
             <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
               <span class="chip chip-purple">Theme 2.2</span>
               <span class="chip chip-blue">Financial Planning</span>
@@ -612,251 +795,11 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
       </div>
     </div>
 
-    <!-- TOOL 2: PED Calculator -->
-    <div class="tool-container" id="tool-ped">
-      <div class="tool-header">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.6em">📉</span>
-          <div>
-            <h3>Price Elasticity of Demand Calculator</h3>
-            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-              <span class="chip chip-blue">Theme 1.2</span>
-              <span class="chip chip-orange">Market Analysis</span>
-            </div>
-          </div>
-        </div>
-        <p>Enter a price change and see how demand responds. Understand what this means for revenue and pricing strategy.</p>
-      </div>
-      <div class="tool-layout">
-        <div class="tool-controls">
-          <div class="slider-group">
-            <label>% change in price <span id="ped-dp-val">+10%</span></label>
-            <input type="range" id="ped-dp" min="-30" max="30" step="1" value="10" oninput="updatePED()">
-          </div>
-          <div class="slider-group">
-            <label>% change in quantity demanded <span id="ped-dq-val">−8%</span></label>
-            <input type="range" id="ped-dq" min="-50" max="50" step="1" value="-8" oninput="updatePED()">
-          </div>
-          <div class="slider-group">
-            <label>Current price (£) <span id="ped-p-val">£10.00</span></label>
-            <input type="range" id="ped-p" min="1" max="100" step="1" value="10" oninput="updatePED()">
-          </div>
-          <div class="slider-group">
-            <label>Current sales (units) <span id="ped-q-val">1,000</span></label>
-            <input type="range" id="ped-q" min="100" max="10000" step="100" value="1000" oninput="updatePED()">
-          </div>
-          <div class="tool-results">
-            <div class="result-row"><span class="result-label">PED value</span><span class="result-value" id="ped-val">−0.8</span></div>
-            <div class="result-row"><span class="result-label">Elasticity type</span><span class="result-value" id="ped-type">Price Inelastic</span></div>
-            <div class="result-row"><span class="result-label">Revenue before</span><span class="result-value" id="ped-rev-before">£10,000</span></div>
-            <div class="result-row"><span class="result-label">Revenue after</span><span class="result-value green" id="ped-rev-after">£10,120</span></div>
-            <div class="result-row"><span class="result-label">Revenue change</span><span class="result-value green" id="ped-rev-change">+£120</span></div>
-          </div>
-        </div>
-        <div>
-          <canvas id="pedChart" width="400" height="380"></canvas>
-          <div id="ped-interpretation" style="margin-top:16px;padding:14px;border-radius:8px;font-size:.88em;line-height:1.65;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TOOL 3: Ansoff Matrix Explorer -->
-    <div class="tool-container" id="tool-ansoff">
-      <div class="tool-header">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.6em">🎯</span>
-          <div>
-            <h3>Ansoff Matrix Explorer</h3>
-            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-              <span class="chip chip-green">Theme 3.1</span>
-              <span class="chip chip-purple">Strategic Planning</span>
-            </div>
-          </div>
-        </div>
-        <p>Click each quadrant to explore the strategy, real-world examples, risk level, and key evaluation points.</p>
-      </div>
-      <div class="tool-layout">
-        <div>
-          <div style="display:grid;grid-template-columns:80px 1fr 1fr;grid-template-rows:40px 1fr 1fr;gap:3px;background:#e0e0e0;border-radius:10px;overflow:hidden;max-width:480px;">
-            <div style="background:#fff;"></div>
-            <div style="background:#e8f5e9;display:flex;align-items:center;justify-content:center;padding:8px;font-size:.8em;font-weight:700;color:#2e7d32;">EXISTING MARKETS</div>
-            <div style="background:#e3f2fd;display:flex;align-items:center;justify-content:center;padding:8px;font-size:.8em;font-weight:700;color:#1565c0;">NEW MARKETS</div>
-            <div style="background:#fff8e1;display:flex;align-items:center;justify-content:center;padding:8px;font-size:.8em;font-weight:700;color:#e65100;writing-mode:horizontal-tb;text-align:center;">EXISTING<br>PRODUCTS</div>
-            <div class="ansoff-cell" style="background:#43a047;" onclick="showAnsoff('mp')" id="ansoff-mp">
-              <h4>Market Penetration</h4><p>Same product, same market</p>
-              <span class="ansoff-risk">⭐ Lowest risk</span>
-            </div>
-            <div class="ansoff-cell" style="background:#1976d2;" onclick="showAnsoff('md')" id="ansoff-md">
-              <h4>Market Development</h4><p>Same product, new market</p>
-              <span class="ansoff-risk">⭐⭐ Medium risk</span>
-            </div>
-            <div style="background:#fff8e1;display:flex;align-items:center;justify-content:center;padding:8px;font-size:.8em;font-weight:700;color:#e65100;writing-mode:horizontal-tb;text-align:center;">NEW<br>PRODUCTS</div>
-            <div class="ansoff-cell" style="background:#e65100;" onclick="showAnsoff('pd')" id="ansoff-pd">
-              <h4>Product Development</h4><p>New product, same market</p>
-              <span class="ansoff-risk">⭐⭐ Medium risk</span>
-            </div>
-            <div class="ansoff-cell" style="background:#7b1fa2;" onclick="showAnsoff('div')" id="ansoff-div">
-              <h4>Diversification</h4><p>New product, new market</p>
-              <span class="ansoff-risk">⭐⭐⭐ Highest risk</span>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="ansoff-detail" id="ansoff-detail">
-            <h4>Click a quadrant to explore</h4>
-            <p>Each strategy carries different levels of risk. The further you move from your existing products and markets, the higher the risk — but also the potential for greater growth.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TOOL 4: Investment Appraisal -->
-    <div class="tool-container" id="tool-invest">
-      <div class="tool-header">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.6em">💼</span>
-          <div>
-            <h3>Investment Appraisal Calculator</h3>
-            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-              <span class="chip chip-green">Theme 3.3</span>
-              <span class="chip chip-blue">Decision-Making</span>
-            </div>
-          </div>
-        </div>
-        <p>Enter your investment data to calculate Payback Period, ARR, and Net Present Value. Compare two investment options side by side.</p>
-      </div>
-      <div class="tool-layout">
-        <div class="tool-controls">
-          <div style="font-weight:700;font-size:.9em;margin-bottom:8px;color:#00897b;">Investment details</div>
-          <div class="slider-group">
-            <label>Initial investment (£000) <span id="inv-init-val">£50k</span></label>
-            <input type="range" id="inv-init" min="10" max="500" step="10" value="50" oninput="updateInvest()">
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
-            <div>
-              <div style="font-size:.8em;color:var(--muted);margin-bottom:6px;font-weight:600;">Year 1–5 cash inflows (£000)</div>
-              <input type="number" class="search-input" id="inv-y1" value="15" placeholder="Y1" style="padding:8px;margin-bottom:4px;" oninput="updateInvest()">
-              <input type="number" class="search-input" id="inv-y2" value="18" placeholder="Y2" style="padding:8px;margin-bottom:4px;" oninput="updateInvest()">
-              <input type="number" class="search-input" id="inv-y3" value="22" placeholder="Y3" style="padding:8px;margin-bottom:4px;" oninput="updateInvest()">
-              <input type="number" class="search-input" id="inv-y4" value="20" placeholder="Y4" style="padding:8px;margin-bottom:4px;" oninput="updateInvest()">
-              <input type="number" class="search-input" id="inv-y5" value="15" placeholder="Y5" style="padding:8px;" oninput="updateInvest()">
-            </div>
-            <div>
-              <div style="font-size:.8em;color:var(--muted);margin-bottom:6px;font-weight:600;">Discount factors (10%)</div>
-              <div style="font-size:.83em;color:var(--muted);padding:8px 0;line-height:2.05;">0.909<br>0.826<br>0.751<br>0.683<br>0.621</div>
-            </div>
-          </div>
-          <div class="tool-results">
-            <div class="result-row"><span class="result-label">Payback Period</span><span class="result-value" id="inv-payback">—</span></div>
-            <div class="result-row"><span class="result-label">Total Net Cash Flow</span><span class="result-value" id="inv-total">—</span></div>
-            <div class="result-row"><span class="result-label">Average Annual Profit</span><span class="result-value" id="inv-avg">—</span></div>
-            <div class="result-row"><span class="result-label">ARR</span><span class="result-value" id="inv-arr">—</span></div>
-            <div class="result-row"><span class="result-label">NPV (at 10%)</span><span class="result-value" id="inv-npv">—</span></div>
-          </div>
-        </div>
-        <div>
-          <canvas id="investChart" width="400" height="300"></canvas>
-          <div id="invest-verdict" style="margin-top:16px;padding:14px;border-radius:8px;font-size:.88em;line-height:1.65;background:#e8f5e9;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TOOL 5: Exchange Rate Impact -->
-    <div class="tool-container" id="tool-exchange">
-      <div class="tool-header">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.6em">💱</span>
-          <div>
-            <h3>Exchange Rate Impact Tool</h3>
-            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-              <span class="chip chip-orange">Theme 4.1</span>
-              <span class="chip chip-blue">Global Business</span>
-            </div>
-          </div>
-        </div>
-        <p>See how a change in the pound's value affects UK exporters and importers. Understand why exchange rate movements matter to business strategy.</p>
-      </div>
-      <div class="tool-layout">
-        <div class="tool-controls">
-          <div class="slider-group">
-            <label>Current £/€ rate <span id="fx-rate-val">£1 = €1.15</span></label>
-            <input type="range" id="fx-rate" min="0.8" max="1.6" step="0.01" value="1.15" oninput="updateFX()">
-          </div>
-          <div class="slider-group">
-            <label>% change in £ value <span id="fx-change-val">+10%</span></label>
-            <input type="range" id="fx-change" min="-30" max="30" step="1" value="10" oninput="updateFX()">
-          </div>
-          <div class="slider-group">
-            <label>UK export price (£) <span id="fx-exp-val">£100</span></label>
-            <input type="range" id="fx-exp" min="10" max="1000" step="10" value="100" oninput="updateFX()">
-          </div>
-          <div class="slider-group">
-            <label>UK import cost (€) <span id="fx-imp-val">€80</span></label>
-            <input type="range" id="fx-imp" min="10" max="500" step="5" value="80" oninput="updateFX()">
-          </div>
-          <div class="tool-results">
-            <div class="result-row"><span class="result-label">New exchange rate</span><span class="result-value" id="fx-new-rate">£1 = €1.27</span></div>
-            <div class="result-row"><span class="result-label">Export price in € (before)</span><span class="result-value" id="fx-exp-before">€115.00</span></div>
-            <div class="result-row"><span class="result-label">Export price in € (after)</span><span class="result-value red" id="fx-exp-after">€126.50</span></div>
-            <div class="result-row"><span class="result-label">Import cost in £ (before)</span><span class="result-value" id="fx-imp-before">£69.57</span></div>
-            <div class="result-row"><span class="result-label">Import cost in £ (after)</span><span class="result-value green" id="fx-imp-after">£63.25</span></div>
-          </div>
-        </div>
-        <div>
-          <div id="fx-analysis" style="padding:20px;background:var(--bg);border-radius:10px;border:1px solid var(--border);font-size:.9em;line-height:1.7;"></div>
-          <canvas id="fxChart" width="400" height="240" style="margin-top:20px;"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- TOOL 6: Supply & Demand Diagram Builder -->
-    <div class="tool-container" id="tool-supdem">
-      <div class="tool-header">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.6em">📈</span>
-          <div><h3>Supply &amp; Demand Diagram Builder</h3>
-            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-              <span class="chip chip-blue">Theme 1.2</span><span class="chip chip-orange">Market Analysis</span>
-            </div>
-          </div>
-        </div>
-        <p>Click the shift buttons to move the demand or supply curve. Watch how equilibrium price and quantity change, and read the explanation of what caused it.</p>
-      </div>
-      <div class="tool-layout">
-        <div>
-          <svg id="sdSVG" viewBox="0 0 400 340" style="width:100%;max-width:420px;background:#fafafa;border-radius:10px;border:1px solid var(--border);"></svg>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:16px;">
-          <div style="font-size:.85em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);">Shift demand curve</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="fc-btn" onclick="shiftSD('D',1)" style="border-color:#e53935;color:#e53935;">↗ Demand increase</button>
-            <button class="fc-btn" onclick="shiftSD('D',-1)" style="border-color:#5c6bc0;color:#5c6bc0;">↙ Demand decrease</button>
-          </div>
-          <div style="font-size:.85em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);">Shift supply curve</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="fc-btn" onclick="shiftSD('S',1)" style="border-color:#43a047;color:#43a047;">↗ Supply increase</button>
-            <button class="fc-btn" onclick="shiftSD('S',-1)" style="border-color:#e65100;color:#e65100;">↙ Supply decrease</button>
-          </div>
-          <button class="fc-btn" onclick="resetSD()" style="margin-top:4px;">↺ Reset</button>
-          <div class="tool-results" style="margin-top:8px;">
-            <div class="result-row"><span class="result-label">Equilibrium Price (P*)</span><span class="result-value" id="sd-price">P₀</span></div>
-            <div class="result-row"><span class="result-label">Equilibrium Quantity (Q*)</span><span class="result-value" id="sd-qty">Q₀</span></div>
-            <div class="result-row"><span class="result-label">Price change</span><span class="result-value" id="sd-pchange">—</span></div>
-            <div class="result-row"><span class="result-label">Quantity change</span><span class="result-value" id="sd-qchange">—</span></div>
-          </div>
-          <div id="sd-explanation" style="padding:14px;background:var(--bg);border-radius:8px;font-size:.88em;line-height:1.7;border:1px solid var(--border);">
-            Start by shifting a curve to see the market analysis.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TOOL 7: Cash Flow Forecast Builder -->
     <div class="tool-container" id="tool-cashflow">
       <div class="tool-header">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
           <span style="font-size:1.6em">💵</span>
-          <div><h3>Cash Flow Forecast Builder</h3>
+          <div><h3>Tool 4 — Cash Flow Forecast Builder</h3>
             <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
               <span class="chip chip-purple">Theme 2.2</span><span class="chip chip-blue">Financial Planning</span>
             </div>
@@ -887,46 +830,75 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
       </div>
     </div>
 
-    <!-- TOOL 8: Financial Ratios Dashboard -->
-    <div class="tool-container" id="tool-ratios">
+    <div class="tool-container" id="tool-contribution">
       <div class="tool-header">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.6em">📊</span>
-          <div><h3>Financial Ratios Dashboard</h3>
+          <span style="font-size:1.6em">🧮</span>
+          <div>
+            <h3>Tool 5 — Contribution &amp; Product Profitability Analyser</h3>
             <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-              <span class="chip chip-red" style="background:#fce4ec;color:#c62828;">Theme 2.3</span><span class="chip chip-blue">Managing Finance</span>
+              <span class="chip chip-purple">Theme 2.2</span><span class="chip chip-blue">Costing &amp; Contribution</span><span class="chip chip-orange">AO1 · AO2 · AO3</span>
             </div>
           </div>
         </div>
-        <p>Enter the financial data from a company's accounts. All key ratios are calculated instantly with RAG traffic-light ratings and examiner commentary.</p>
+        <p>Enter data for up to 3 products. The tool calculates contribution per unit, total contribution, and whether each product is worth keeping — even if it does not cover all fixed costs.</p>
+      </div>
+      <div class="tool-controls" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);">
+          <div style="font-weight:700;color:#4c5fc7;margin-bottom:12px;">Product A</div>
+          <div class="slider-group"><label>Selling Price (£) <span id="cp0-sp-v">£25</span></label><input type="range" id="cp0-sp" min="1" max="200" step="1" value="25" oninput="updateContrib()"></div>
+          <div class="slider-group"><label>Variable Cost/unit (£) <span id="cp0-vc-v">£12</span></label><input type="range" id="cp0-vc" min="0" max="200" step="1" value="12" oninput="updateContrib()"></div>
+          <div class="slider-group"><label>Units Sold <span id="cp0-units-v">2,000</span></label><input type="range" id="cp0-units" min="0" max="20000" step="100" value="2000" oninput="updateContrib()"></div>
+        </div>
+        <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);">
+          <div style="font-weight:700;color:#c62828;margin-bottom:12px;">Product B</div>
+          <div class="slider-group"><label>Selling Price (£) <span id="cp1-sp-v">£40</span></label><input type="range" id="cp1-sp" min="1" max="200" step="1" value="40" oninput="updateContrib()"></div>
+          <div class="slider-group"><label>Variable Cost/unit (£) <span id="cp1-vc-v">£30</span></label><input type="range" id="cp1-vc" min="0" max="200" step="1" value="30" oninput="updateContrib()"></div>
+          <div class="slider-group"><label>Units Sold <span id="cp1-units-v">1,500</span></label><input type="range" id="cp1-units" min="0" max="20000" step="100" value="1500" oninput="updateContrib()"></div>
+        </div>
+        <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);">
+          <div style="font-weight:700;color:#00695c;margin-bottom:12px;">Product C</div>
+          <div class="slider-group"><label>Selling Price (£) <span id="cp2-sp-v">£15</span></label><input type="range" id="cp2-sp" min="1" max="200" step="1" value="15" oninput="updateContrib()"></div>
+          <div class="slider-group"><label>Variable Cost/unit (£) <span id="cp2-vc-v">£8</span></label><input type="range" id="cp2-vc" min="0" max="200" step="1" value="8" oninput="updateContrib()"></div>
+          <div class="slider-group"><label>Units Sold <span id="cp2-units-v">4,000</span></label><input type="range" id="cp2-units" min="0" max="20000" step="100" value="4000" oninput="updateContrib()"></div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);margin-bottom:16px;">
+        <div class="slider-group"><label>Total Fixed Costs (£) <span id="cp-fc-v">£40,000</span></label><input type="range" id="cp-fc" min="0" max="500000" step="5000" value="40000" oninput="updateContrib()"></div>
       </div>
       <div class="tool-layout">
-        <div class="tool-controls">
-          <div style="font-size:.8em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#c62828;margin-bottom:10px;">Income Statement (£000)</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
-            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Revenue</label><input type="number" id="r-rev" value="500" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
-            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Cost of Sales</label><input type="number" id="r-cos" value="300" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
-            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Operating Expenses</label><input type="number" id="r-opex" value="80" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
-            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Finance Costs</label><input type="number" id="r-fin" value="10" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
-          </div>
-          <div style="font-size:.8em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#1565c0;margin-bottom:10px;">Balance Sheet (£000)</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Current Assets</label><input type="number" id="r-ca" value="120" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
-            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Inventories</label><input type="number" id="r-inv" value="40" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
-            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Current Liabilities</label><input type="number" id="r-cl" value="80" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
-            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Capital Employed</label><input type="number" id="r-cap" value="400" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
-          </div>
-        </div>
-        <div id="ratios-output" style="display:flex;flex-direction:column;gap:10px;"></div>
+        <div id="contrib-results" style="flex:1;"></div>
+        <div class="tool-chart-area" style="flex:1;"><canvas id="contribChart" height="280"></canvas></div>
       </div>
+      <div class="tool-insight" id="contrib-insight"></div>
     </div>
 
-    <!-- TOOL 9: Decision Tree Builder -->
+    <div class="tool-container" id="tool-variance">
+      <div class="tool-header">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:1.6em">📊</span>
+          <div>
+            <h3>Tool 6 — Budget Variance Analyser</h3>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+              <span class="chip chip-purple">Theme 2.2</span><span class="chip chip-blue">Budgeting</span><span class="chip chip-orange">AO1 · AO2 · AO3</span>
+            </div>
+          </div>
+        </div>
+        <p>Enter budgeted and actual figures for revenue and cost lines. The tool classifies each as Favourable (F) or Adverse (A) and explains why — exactly how examiners expect you to.</p>
+      </div>
+      <div id="variance-table-wrap" style="overflow-x:auto;margin-bottom:16px;"></div>
+      <div class="tool-layout">
+        <div id="variance-summary" style="flex:1;"></div>
+        <div class="tool-chart-area" style="flex:1;"><canvas id="varianceChart" height="280"></canvas></div>
+      </div>
+      <div class="tool-insight" id="variance-insight"></div>
+    </div>
+
     <div class="tool-container" id="tool-dtree">
       <div class="tool-header">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
           <span style="font-size:1.6em">🌳</span>
-          <div><h3>Decision Tree Calculator</h3>
+          <div><h3>Tool 7 — Decision Tree Calculator</h3>
             <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
               <span class="chip chip-green">Theme 3.3</span><span class="chip chip-blue">Decision-Making</span>
             </div>
@@ -977,12 +949,197 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
       </div>
     </div>
 
-    <!-- TOOL 10: Boston Matrix -->
+    <div class="tool-container" id="tool-stock">
+      <div class="tool-header">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:1.6em">📦</span>
+          <div><h3>Tool 8 — Stock Control Diagram</h3>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+              <span class="chip chip-red" style="background:#fce4ec;color:#c62828;">Theme 2.4</span><span class="chip chip-blue">Operations</span>
+            </div>
+          </div>
+        </div>
+        <p>Adjust the stock control parameters and see the diagram update in real time. Understand how reorder level, lead time, and buffer stock interact.</p>
+      </div>
+      <div class="tool-layout">
+        <div class="tool-controls">
+          <div class="slider-group">
+            <label>Maximum stock level (units) <span id="stk-max-v">500</span></label>
+            <input type="range" id="stk-max" min="200" max="2000" step="50" value="500" oninput="updateStock()">
+          </div>
+          <div class="slider-group">
+            <label>Buffer stock (units) <span id="stk-buf-v">100</span></label>
+            <input type="range" id="stk-buf" min="0" max="400" step="25" value="100" oninput="updateStock()">
+          </div>
+          <div class="slider-group">
+            <label>Reorder quantity (units) <span id="stk-roq-v">300</span></label>
+            <input type="range" id="stk-roq" min="100" max="800" step="50" value="300" oninput="updateStock()">
+          </div>
+          <div class="slider-group">
+            <label>Lead time (days) <span id="stk-lt-v">5 days</span></label>
+            <input type="range" id="stk-lt" min="1" max="14" step="1" value="5" oninput="updateStock()">
+          </div>
+          <div class="slider-group">
+            <label>Daily usage rate (units/day) <span id="stk-use-v">30</span></label>
+            <input type="range" id="stk-use" min="5" max="100" step="5" value="30" oninput="updateStock()">
+          </div>
+          <div class="tool-results">
+            <div class="result-row"><span class="result-label">Reorder level</span><span class="result-value" id="stk-rol">—</span></div>
+            <div class="result-row"><span class="result-label">Time between orders</span><span class="result-value" id="stk-tbo">—</span></div>
+            <div class="result-row"><span class="result-label">Average stock held</span><span class="result-value" id="stk-avg">—</span></div>
+          </div>
+        </div>
+        <div>
+          <canvas id="stockChart" height="300"></canvas>
+          <div style="margin-top:12px;padding:12px;background:#e8f5e9;border-radius:8px;font-size:.83em;line-height:1.65;border-left:3px solid #43a047;">
+            <strong>Reorder level</strong> = Buffer stock + (Daily usage × Lead time). Stock is reordered when it hits this level, arriving just as buffer stock begins to be used.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THEME SECTION HEADER -->
+    <div style="background:linear-gradient(90deg,#2e7d3222,transparent);border-left:4px solid #2e7d32;border-radius:0 12px 12px 0;padding:14px 20px;margin:32px 0 20px;">
+      <div style="font-size:1.05em;font-weight:800;color:#2e7d32;">Theme 3 — Business Decisions &amp; Strategy</div>
+    </div>
+
+    <div class="tool-container" id="tool-ratios">
+      <div class="tool-header">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:1.6em">📊</span>
+          <div><h3>Tool 9 — Financial Ratios Dashboard</h3>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+              <span class="chip chip-red" style="background:#fce4ec;color:#c62828;">Theme 2.3</span><span class="chip chip-blue">Managing Finance</span>
+            </div>
+          </div>
+        </div>
+        <p>Enter the financial data from a company's accounts. All key ratios are calculated instantly with RAG traffic-light ratings and examiner commentary.</p>
+      </div>
+      <div class="tool-layout">
+        <div class="tool-controls">
+          <div style="font-size:.8em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#c62828;margin-bottom:10px;">Income Statement (£000)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Revenue</label><input type="number" id="r-rev" value="500" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
+            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Cost of Sales</label><input type="number" id="r-cos" value="300" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
+            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Operating Expenses</label><input type="number" id="r-opex" value="80" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
+            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Finance Costs</label><input type="number" id="r-fin" value="10" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
+          </div>
+          <div style="font-size:.8em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#1565c0;margin-bottom:10px;">Balance Sheet (£000)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Current Assets</label><input type="number" id="r-ca" value="120" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
+            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Inventories</label><input type="number" id="r-inv" value="40" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
+            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Current Liabilities</label><input type="number" id="r-cl" value="80" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
+            <div><label style="font-size:.78em;color:var(--muted);display:block;margin-bottom:3px;">Capital Employed</label><input type="number" id="r-cap" value="400" class="search-input" style="padding:8px;" oninput="updateRatios()"></div>
+          </div>
+        </div>
+        <div id="ratios-output" style="display:flex;flex-direction:column;gap:10px;"></div>
+      </div>
+    </div>
+
+    <div class="tool-container" id="tool-invest">
+      <div class="tool-header">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:1.6em">💼</span>
+          <div>
+            <h3>Tool 10 — Investment Appraisal Calculator</h3>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+              <span class="chip chip-green">Theme 3.3</span>
+              <span class="chip chip-blue">Decision-Making</span>
+            </div>
+          </div>
+        </div>
+        <p>Enter your investment data to calculate Payback Period, ARR, and Net Present Value. Compare two investment options side by side.</p>
+      </div>
+      <div class="tool-layout">
+        <div class="tool-controls">
+          <div style="font-weight:700;font-size:.9em;margin-bottom:8px;color:#00897b;">Investment details</div>
+          <div class="slider-group">
+            <label>Initial investment (£000) <span id="inv-init-val">£50k</span></label>
+            <input type="range" id="inv-init" min="10" max="500" step="10" value="50" oninput="updateInvest()">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+            <div>
+              <div style="font-size:.8em;color:var(--muted);margin-bottom:6px;font-weight:600;">Year 1–5 cash inflows (£000)</div>
+              <input type="number" class="search-input" id="inv-y1" value="15" placeholder="Y1" style="padding:8px;margin-bottom:4px;" oninput="updateInvest()">
+              <input type="number" class="search-input" id="inv-y2" value="18" placeholder="Y2" style="padding:8px;margin-bottom:4px;" oninput="updateInvest()">
+              <input type="number" class="search-input" id="inv-y3" value="22" placeholder="Y3" style="padding:8px;margin-bottom:4px;" oninput="updateInvest()">
+              <input type="number" class="search-input" id="inv-y4" value="20" placeholder="Y4" style="padding:8px;margin-bottom:4px;" oninput="updateInvest()">
+              <input type="number" class="search-input" id="inv-y5" value="15" placeholder="Y5" style="padding:8px;" oninput="updateInvest()">
+            </div>
+            <div>
+              <div style="font-size:.8em;color:var(--muted);margin-bottom:6px;font-weight:600;">Discount factors (10%)</div>
+              <div style="font-size:.83em;color:var(--muted);padding:8px 0;line-height:2.05;">0.909<br>0.826<br>0.751<br>0.683<br>0.621</div>
+            </div>
+          </div>
+          <div class="tool-results">
+            <div class="result-row"><span class="result-label">Payback Period</span><span class="result-value" id="inv-payback">—</span></div>
+            <div class="result-row"><span class="result-label">Total Net Cash Flow</span><span class="result-value" id="inv-total">—</span></div>
+            <div class="result-row"><span class="result-label">Average Annual Profit</span><span class="result-value" id="inv-avg">—</span></div>
+            <div class="result-row"><span class="result-label">ARR</span><span class="result-value" id="inv-arr">—</span></div>
+            <div class="result-row"><span class="result-label">NPV (at 10%)</span><span class="result-value" id="inv-npv">—</span></div>
+          </div>
+        </div>
+        <div>
+          <canvas id="investChart" width="400" height="300"></canvas>
+          <div id="invest-verdict" style="margin-top:16px;padding:14px;border-radius:8px;font-size:.88em;line-height:1.65;background:#e8f5e9;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-container" id="tool-ansoff">
+      <div class="tool-header">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:1.6em">🎯</span>
+          <div>
+            <h3>Tool 11 — Ansoff Matrix Explorer</h3>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+              <span class="chip chip-green">Theme 3.1</span>
+              <span class="chip chip-purple">Strategic Planning</span>
+            </div>
+          </div>
+        </div>
+        <p>Click each quadrant to explore the strategy, real-world examples, risk level, and key evaluation points.</p>
+      </div>
+      <div class="tool-layout">
+        <div>
+          <div style="display:grid;grid-template-columns:80px 1fr 1fr;grid-template-rows:40px 1fr 1fr;gap:3px;background:#e0e0e0;border-radius:10px;overflow:hidden;max-width:480px;">
+            <div style="background:#fff;"></div>
+            <div style="background:#e8f5e9;display:flex;align-items:center;justify-content:center;padding:8px;font-size:.8em;font-weight:700;color:#2e7d32;">EXISTING MARKETS</div>
+            <div style="background:#e3f2fd;display:flex;align-items:center;justify-content:center;padding:8px;font-size:.8em;font-weight:700;color:#1565c0;">NEW MARKETS</div>
+            <div style="background:#fff8e1;display:flex;align-items:center;justify-content:center;padding:8px;font-size:.8em;font-weight:700;color:#e65100;writing-mode:horizontal-tb;text-align:center;">EXISTING<br>PRODUCTS</div>
+            <div class="ansoff-cell" style="background:#43a047;" onclick="showAnsoff('mp')" id="ansoff-mp">
+              <h4>Market Penetration</h4><p>Same product, same market</p>
+              <span class="ansoff-risk">⭐ Lowest risk</span>
+            </div>
+            <div class="ansoff-cell" style="background:#1976d2;" onclick="showAnsoff('md')" id="ansoff-md">
+              <h4>Market Development</h4><p>Same product, new market</p>
+              <span class="ansoff-risk">⭐⭐ Medium risk</span>
+            </div>
+            <div style="background:#fff8e1;display:flex;align-items:center;justify-content:center;padding:8px;font-size:.8em;font-weight:700;color:#e65100;writing-mode:horizontal-tb;text-align:center;">NEW<br>PRODUCTS</div>
+            <div class="ansoff-cell" style="background:#e65100;" onclick="showAnsoff('pd')" id="ansoff-pd">
+              <h4>Product Development</h4><p>New product, same market</p>
+              <span class="ansoff-risk">⭐⭐ Medium risk</span>
+            </div>
+            <div class="ansoff-cell" style="background:#7b1fa2;" onclick="showAnsoff('div')" id="ansoff-div">
+              <h4>Diversification</h4><p>New product, new market</p>
+              <span class="ansoff-risk">⭐⭐⭐ Highest risk</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="ansoff-detail" id="ansoff-detail">
+            <h4>Click a quadrant to explore</h4>
+            <p>Each strategy carries different levels of risk. The further you move from your existing products and markets, the higher the risk — but also the potential for greater growth.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="tool-container" id="tool-boston">
       <div class="tool-header">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
           <span style="font-size:1.6em">⭕</span>
-          <div><h3>Boston Matrix Portfolio Analyser</h3>
+          <div><h3>Tool 12 — Boston Matrix Portfolio Analyser</h3>
             <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
               <span class="chip chip-green">Theme 3.2</span><span class="chip chip-purple">Business Growth</span>
             </div>
@@ -1032,72 +1189,12 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
       </div>
     </div>
 
-    <!-- TOOL 11: Stock Control Diagram -->
-    <div class="tool-container" id="tool-stock">
-      <div class="tool-header">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.6em">📦</span>
-          <div><h3>Stock Control Diagram</h3>
-            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-              <span class="chip chip-red" style="background:#fce4ec;color:#c62828;">Theme 2.4</span><span class="chip chip-blue">Operations</span>
-            </div>
-          </div>
-        </div>
-        <p>Adjust the stock control parameters and see the diagram update in real time. Understand how reorder level, lead time, and buffer stock interact.</p>
-      </div>
-      <div class="tool-layout">
-        <div class="tool-controls">
-          <div class="slider-group">
-            <label>Maximum stock level (units) <span id="stk-max-v">500</span></label>
-            <input type="range" id="stk-max" min="200" max="2000" step="50" value="500" oninput="updateStock()">
-          </div>
-          <div class="slider-group">
-            <label>Buffer stock (units) <span id="stk-buf-v">100</span></label>
-            <input type="range" id="stk-buf" min="0" max="400" step="25" value="100" oninput="updateStock()">
-          </div>
-          <div class="slider-group">
-            <label>Reorder quantity (units) <span id="stk-roq-v">300</span></label>
-            <input type="range" id="stk-roq" min="100" max="800" step="50" value="300" oninput="updateStock()">
-          </div>
-          <div class="slider-group">
-            <label>Lead time (days) <span id="stk-lt-v">5 days</span></label>
-            <input type="range" id="stk-lt" min="1" max="14" step="1" value="5" oninput="updateStock()">
-          </div>
-          <div class="slider-group">
-            <label>Daily usage rate (units/day) <span id="stk-use-v">30</span></label>
-            <input type="range" id="stk-use" min="5" max="100" step="5" value="30" oninput="updateStock()">
-          </div>
-          <div class="tool-results">
-            <div class="result-row"><span class="result-label">Reorder level</span><span class="result-value" id="stk-rol">—</span></div>
-            <div class="result-row"><span class="result-label">Time between orders</span><span class="result-value" id="stk-tbo">—</span></div>
-            <div class="result-row"><span class="result-label">Average stock held</span><span class="result-value" id="stk-avg">—</span></div>
-          </div>
-        </div>
-        <div>
-          <canvas id="stockChart" height="300"></canvas>
-          <div style="margin-top:12px;padding:12px;background:#e8f5e9;border-radius:8px;font-size:.83em;line-height:1.65;border-left:3px solid #43a047;">
-            <strong>Reorder level</strong> = Buffer stock + (Daily usage × Lead time). Stock is reordered when it hits this level, arriving just as buffer stock begins to be used.
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-  </div>
-</div>
-
-
-
-    <!-- TOOLS 12-17: FINANCE TOOLS -->
-
-    <!-- TOOL 12: Profit & Loss Statement Builder -->
     <div class="tool-container" id="tool-pl">
       <div class="tool-header">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
           <span style="font-size:1.6em">📋</span>
           <div>
-            <h3>Tool 12 — Profit &amp; Loss Statement Builder</h3>
+            <h3>Tool 13 — Profit &amp; Loss Statement Builder</h3>
             <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
               <span class="chip chip-red">Theme 3.3</span>
               <span class="chip chip-blue">Financial Accounts</span>
@@ -1127,13 +1224,12 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
       <div class="tool-insight" id="pl-insight"></div>
     </div>
 
-    <!-- TOOL 13: Balance Sheet Builder -->
     <div class="tool-container" id="tool-bs">
       <div class="tool-header">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
           <span style="font-size:1.6em">⚖️</span>
           <div>
-            <h3>Tool 13 — Balance Sheet Builder</h3>
+            <h3>Tool 14 — Balance Sheet Builder</h3>
             <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
               <span class="chip chip-red">Theme 3.3</span><span class="chip chip-blue">Financial Accounts</span><span class="chip chip-orange">AO1 · AO2 · AO3</span>
             </div>
@@ -1165,13 +1261,12 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
       <div class="tool-insight" id="bs-insight"></div>
     </div>
 
-    <!-- TOOL 14: Depreciation Calculator -->
     <div class="tool-container" id="tool-depreciation">
       <div class="tool-header">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
           <span style="font-size:1.6em">📉</span>
           <div>
-            <h3>Tool 14 — Depreciation Calculator</h3>
+            <h3>Tool 15 — Depreciation Calculator</h3>
             <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
               <span class="chip chip-red">Theme 3.3</span><span class="chip chip-blue">Non-Current Assets</span><span class="chip chip-orange">AO1 · AO2</span>
             </div>
@@ -1195,79 +1290,12 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
       <div class="tool-insight" id="dep-insight"></div>
     </div>
 
-    <!-- TOOL 15: Contribution Analysis -->
-    <div class="tool-container" id="tool-contribution">
-      <div class="tool-header">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.6em">🧮</span>
-          <div>
-            <h3>Tool 15 — Contribution &amp; Product Profitability Analyser</h3>
-            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-              <span class="chip chip-purple">Theme 2.2</span><span class="chip chip-blue">Costing &amp; Contribution</span><span class="chip chip-orange">AO1 · AO2 · AO3</span>
-            </div>
-          </div>
-        </div>
-        <p>Enter data for up to 3 products. The tool calculates contribution per unit, total contribution, and whether each product is worth keeping — even if it does not cover all fixed costs.</p>
-      </div>
-      <div class="tool-controls" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
-        <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);">
-          <div style="font-weight:700;color:#4c5fc7;margin-bottom:12px;">Product A</div>
-          <div class="slider-group"><label>Selling Price (£) <span id="cp0-sp-v">£25</span></label><input type="range" id="cp0-sp" min="1" max="200" step="1" value="25" oninput="updateContrib()"></div>
-          <div class="slider-group"><label>Variable Cost/unit (£) <span id="cp0-vc-v">£12</span></label><input type="range" id="cp0-vc" min="0" max="200" step="1" value="12" oninput="updateContrib()"></div>
-          <div class="slider-group"><label>Units Sold <span id="cp0-units-v">2,000</span></label><input type="range" id="cp0-units" min="0" max="20000" step="100" value="2000" oninput="updateContrib()"></div>
-        </div>
-        <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);">
-          <div style="font-weight:700;color:#c62828;margin-bottom:12px;">Product B</div>
-          <div class="slider-group"><label>Selling Price (£) <span id="cp1-sp-v">£40</span></label><input type="range" id="cp1-sp" min="1" max="200" step="1" value="40" oninput="updateContrib()"></div>
-          <div class="slider-group"><label>Variable Cost/unit (£) <span id="cp1-vc-v">£30</span></label><input type="range" id="cp1-vc" min="0" max="200" step="1" value="30" oninput="updateContrib()"></div>
-          <div class="slider-group"><label>Units Sold <span id="cp1-units-v">1,500</span></label><input type="range" id="cp1-units" min="0" max="20000" step="100" value="1500" oninput="updateContrib()"></div>
-        </div>
-        <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);">
-          <div style="font-weight:700;color:#00695c;margin-bottom:12px;">Product C</div>
-          <div class="slider-group"><label>Selling Price (£) <span id="cp2-sp-v">£15</span></label><input type="range" id="cp2-sp" min="1" max="200" step="1" value="15" oninput="updateContrib()"></div>
-          <div class="slider-group"><label>Variable Cost/unit (£) <span id="cp2-vc-v">£8</span></label><input type="range" id="cp2-vc" min="0" max="200" step="1" value="8" oninput="updateContrib()"></div>
-          <div class="slider-group"><label>Units Sold <span id="cp2-units-v">4,000</span></label><input type="range" id="cp2-units" min="0" max="20000" step="100" value="4000" oninput="updateContrib()"></div>
-        </div>
-      </div>
-      <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);margin-bottom:16px;">
-        <div class="slider-group"><label>Total Fixed Costs (£) <span id="cp-fc-v">£40,000</span></label><input type="range" id="cp-fc" min="0" max="500000" step="5000" value="40000" oninput="updateContrib()"></div>
-      </div>
-      <div class="tool-layout">
-        <div id="contrib-results" style="flex:1;"></div>
-        <div class="tool-chart-area" style="flex:1;"><canvas id="contribChart" height="280"></canvas></div>
-      </div>
-      <div class="tool-insight" id="contrib-insight"></div>
-    </div>
-
-    <!-- TOOL 16: Budget Variance Analyser -->
-    <div class="tool-container" id="tool-variance">
-      <div class="tool-header">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.6em">📊</span>
-          <div>
-            <h3>Tool 16 — Budget Variance Analyser</h3>
-            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
-              <span class="chip chip-purple">Theme 2.2</span><span class="chip chip-blue">Budgeting</span><span class="chip chip-orange">AO1 · AO2 · AO3</span>
-            </div>
-          </div>
-        </div>
-        <p>Enter budgeted and actual figures for revenue and cost lines. The tool classifies each as Favourable (F) or Adverse (A) and explains why — exactly how examiners expect you to.</p>
-      </div>
-      <div id="variance-table-wrap" style="overflow-x:auto;margin-bottom:16px;"></div>
-      <div class="tool-layout">
-        <div id="variance-summary" style="flex:1;"></div>
-        <div class="tool-chart-area" style="flex:1;"><canvas id="varianceChart" height="280"></canvas></div>
-      </div>
-      <div class="tool-insight" id="variance-insight"></div>
-    </div>
-
-    <!-- TOOL 17: Working Capital Cycle -->
     <div class="tool-container" id="tool-wc">
       <div class="tool-header">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
           <span style="font-size:1.6em">🔄</span>
           <div>
-            <h3>Tool 17 — Working Capital Cycle &amp; Liquidity Analyser</h3>
+            <h3>Tool 16 — Working Capital Cycle &amp; Liquidity Analyser</h3>
             <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
               <span class="chip chip-red">Theme 3.3</span><span class="chip chip-blue">Working Capital</span><span class="chip chip-orange">AO1 · AO2 · AO3</span>
             </div>
@@ -1296,6 +1324,130 @@ input[type=range] { width:100%; cursor:pointer; accent-color:#667eea; height:6px
       <div class="tool-insight" id="wc-insight"></div>
     </div>
 
+    <!-- THEME SECTION HEADER -->
+    <div style="background:linear-gradient(90deg,#e6510022,transparent);border-left:4px solid #e65100;border-radius:0 12px 12px 0;padding:14px 20px;margin:32px 0 20px;">
+      <div style="font-size:1.05em;font-weight:800;color:#e65100;">Theme 4 — Global Business</div>
+    </div>
+
+    <div class="tool-container" id="tool-exchange">
+      <div class="tool-header">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:1.6em">💱</span>
+          <div>
+            <h3>Tool 17 — Exchange Rate Impact Tool</h3>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+              <span class="chip chip-orange">Theme 4.1</span>
+              <span class="chip chip-blue">Global Business</span>
+            </div>
+          </div>
+        </div>
+        <p>See how a change in the pound's value affects UK exporters and importers. Understand why exchange rate movements matter to business strategy.</p>
+      </div>
+      <div class="tool-layout">
+        <div class="tool-controls">
+          <div class="slider-group">
+            <label>Current £/€ rate <span id="fx-rate-val">£1 = €1.15</span></label>
+            <input type="range" id="fx-rate" min="0.8" max="1.6" step="0.01" value="1.15" oninput="updateFX()">
+          </div>
+          <div class="slider-group">
+            <label>% change in £ value <span id="fx-change-val">+10%</span></label>
+            <input type="range" id="fx-change" min="-30" max="30" step="1" value="10" oninput="updateFX()">
+          </div>
+          <div class="slider-group">
+            <label>UK export price (£) <span id="fx-exp-val">£100</span></label>
+            <input type="range" id="fx-exp" min="10" max="1000" step="10" value="100" oninput="updateFX()">
+          </div>
+          <div class="slider-group">
+            <label>UK import cost (€) <span id="fx-imp-val">€80</span></label>
+            <input type="range" id="fx-imp" min="10" max="500" step="5" value="80" oninput="updateFX()">
+          </div>
+          <div class="tool-results">
+            <div class="result-row"><span class="result-label">New exchange rate</span><span class="result-value" id="fx-new-rate">£1 = €1.27</span></div>
+            <div class="result-row"><span class="result-label">Export price in € (before)</span><span class="result-value" id="fx-exp-before">€115.00</span></div>
+            <div class="result-row"><span class="result-label">Export price in € (after)</span><span class="result-value red" id="fx-exp-after">€126.50</span></div>
+            <div class="result-row"><span class="result-label">Import cost in £ (before)</span><span class="result-value" id="fx-imp-before">£69.57</span></div>
+            <div class="result-row"><span class="result-label">Import cost in £ (after)</span><span class="result-value green" id="fx-imp-after">£63.25</span></div>
+          </div>
+        </div>
+        <div>
+          <div id="fx-analysis" style="padding:20px;background:var(--bg);border-radius:10px;border:1px solid var(--border);font-size:.9em;line-height:1.7;"></div>
+          <canvas id="fxChart" width="400" height="240" style="margin-top:20px;"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="page" id="page-progress">
+  <div class="hero" style="background:linear-gradient(135deg,#1a237e 0%,#283593 100%);padding:32px;">
+    <h2>📈 My Progress</h2>
+    <p>Your personal revision tracker. All data is saved on this device — nothing is sent anywhere without your permission.</p>
+  </div>
+  <div class="content">
+
+    <!-- Name setup banner (shown if no name set) -->
+    <div id="progress-setup" style="display:none;background:var(--card);border:2px solid var(--accent);border-radius:16px;padding:24px;margin-bottom:24px;">
+      <div style="font-weight:700;font-size:1.1em;margin-bottom:8px;">👋 Set your name so your tutor can identify your report</div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+        <input type="text" id="student-name-input" placeholder="Your first name..." maxlength="40"
+          style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:1em;flex:1;min-width:200px;">
+        <button onclick="saveStudentName()" style="padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Save name</button>
+      </div>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="grid-4" id="progress-stats-grid" style="margin-bottom:24px;"></div>
+
+    <!-- Progress bar -->
+    <div class="card" style="margin-bottom:24px;" id="progress-bar-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-weight:700;">Flashcard Mastery</div>
+        <div id="progress-pct-label" style="font-weight:700;color:var(--accent);"></div>
+      </div>
+      <div style="background:var(--border);border-radius:8px;height:16px;overflow:hidden;">
+        <div id="progress-bar-fill" style="height:100%;background:linear-gradient(90deg,#4c5fc7,#2e7d32);border-radius:8px;transition:width .5s;width:0%;"></div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:10px;font-size:.82em;flex-wrap:wrap;">
+        <span style="color:#2e7d32;">✅ <span id="pg-known">0</span> known</span>
+        <span style="color:#e65100;">🔄 <span id="pg-review">0</span> still learning</span>
+        <span style="color:var(--muted);">⬜ <span id="pg-unseen">0</span> not yet seen</span>
+      </div>
+    </div>
+
+    <!-- Two column: Session history + Knowledge gaps -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;" id="progress-two-col">
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:12px;">📅 Session History</div>
+        <div id="progress-sessions" style="font-size:.9em;"></div>
+      </div>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:12px;">⚠️ Knowledge Gaps</div>
+        <div style="font-size:.82em;color:var(--muted);margin-bottom:8px;">Terms you marked "Still Learning" — focus here</div>
+        <div id="progress-gaps" style="font-size:.88em;max-height:260px;overflow-y:auto;"></div>
+      </div>
+    </div>
+
+    <!-- Tools used -->
+    <div class="card" style="margin-bottom:24px;">
+      <div style="font-weight:700;margin-bottom:12px;">🛠️ Tools Used</div>
+      <div id="progress-tools" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+    </div>
+
+    <!-- Tutor Export -->
+    <div class="card" style="border:2px solid #4c5fc7;">
+      <div style="font-weight:700;font-size:1.1em;margin-bottom:4px;">📤 Export for Tutor</div>
+      <div style="font-size:.9em;color:var(--muted);margin-bottom:16px;">Generate a progress report you can print, save as PDF, or screenshot and send to your tutor.</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="tutor-email-note" placeholder="Optional: add a note for your tutor..."
+          style="padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:.9em;flex:1;min-width:200px;">
+        <button onclick="exportTutorReport()" style="padding:10px 20px;background:#4c5fc7;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">📄 Generate Report</button>
+        <button onclick="resetProgress()" style="padding:10px 16px;background:transparent;color:#c62828;border:1px solid #c62828;border-radius:8px;cursor:pointer;font-size:.85em;">🗑️ Reset all data</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- ═══════════════════ EXAM TECHNIQUE SIMULATOR ═══════════════════ -->
 <div class="page" id="page-examtech">
@@ -2659,6 +2811,7 @@ let fcKnown = new Set(), fcReview = new Set();
 
 // ═══════════════════ NAVIGATION ═══════════════════
 function showPage(name) {
+  closeNav();
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   const page = document.getElementById('page-' + name);
@@ -2684,10 +2837,15 @@ function showPage(name) {
       updateBE(); updatePED(); updateInvest(); updateFX();
       updateRatios(); updateDTree(); updateStock();
       updatePL(); updateBS(); updateDep(); updateContrib(); buildVarianceTable(); updateWC();
+    // Record tool page visit
+    recordToolUse('_tools_page');
     }, 120);
   }
   if (name === 'examtech') {
     setTimeout(() => showETSection('white'), 50);
+  }
+  if (name === 'progress') {
+    setTimeout(() => renderProgressPage(), 50);
   }
 }
 
@@ -2935,6 +3093,7 @@ function fmt(n) { return '£' + Math.round(n).toLocaleString(); }
 function fmtN(n) { return Math.round(n).toLocaleString(); }
 
 function updateBE() {
+  if(typeof recordToolUse==='function') recordToolUse('break-even');
   const fc = +document.getElementById('be-fc').value;
   const vc = +document.getElementById('be-vc').value;
   const sp = +document.getElementById('be-sp').value;
@@ -2982,6 +3141,7 @@ function updateBE() {
 
 // ═══════════════════ PED TOOL ═══════════════════
 function updatePED() {
+  if(typeof recordToolUse==='function') recordToolUse('ped');
   const dp = +document.getElementById('ped-dp').value;
   const dq = +document.getElementById('ped-dq').value;
   const p = +document.getElementById('ped-p').value;
@@ -3042,6 +3202,7 @@ function updatePED() {
 
 // ═══════════════════ INVESTMENT TOOL ═══════════════════
 function updateInvest() {
+  if(typeof recordToolUse==='function') recordToolUse('invest');
   const init = +document.getElementById('inv-init').value * 1000;
   document.getElementById('inv-init-val').textContent = '£' + (+document.getElementById('inv-init').value) + 'k';
   
@@ -3331,6 +3492,10 @@ function setFCFilter(f, btn) {
 function rateCard(known) {
   const card = fcCards[fcIndex % fcCards.length];
   if (known) fcKnown.add(card.term); else fcReview.add(card.term);
+  // Save to localStorage progress tracker
+  if (card && card.term) {
+    recordFlashcard(card.term, known ? 'known' : 'review');
+  }
   nextCard();
 }
 
@@ -3612,6 +3777,7 @@ function resetCF(){ cfData.months=['Month 1','Month 2','Month 3','Month 4']; cfD
 
 // ═══════════════════ FINANCIAL RATIOS ═══════════════════
 function updateRatios() {
+  if(typeof recordToolUse==='function') recordToolUse('ratios');
   const rev=+document.getElementById('r-rev').value*1000||1;
   const cos=+document.getElementById('r-cos').value*1000;
   const opex=+document.getElementById('r-opex').value*1000;
@@ -4115,6 +4281,7 @@ function renderPracticeQ(idx) {
 // ═══════════════════ TOOL 12: P&L STATEMENT ═══════════════════
 let plChart2 = null;
 function updatePL() {
+  if(typeof recordToolUse==='function') recordToolUse('pl');
   const rev   = +document.getElementById('pl-rev').value;
   const cogs  = +document.getElementById('pl-cogs').value;
   const dist  = +document.getElementById('pl-dist').value;
@@ -4198,6 +4365,7 @@ function updatePL() {
 // ═══════════════════ TOOL 13: BALANCE SHEET ═══════════════════
 let bsChart2 = null;
 function updateBS() {
+  if(typeof recordToolUse==='function') recordToolUse('bs');
   const ppe   = +document.getElementById('bs-ppe').value;
   const intA  = +document.getElementById('bs-int').value;
   const stock = +document.getElementById('bs-stock').value;
@@ -4307,6 +4475,7 @@ function updateBS() {
 // ═══════════════════ TOOL 14: DEPRECIATION ═══════════════════
 let depChart2 = null;
 function updateDep() {
+  if(typeof recordToolUse==='function') recordToolUse('depreciation');
   const cost = +document.getElementById('dep-cost').value;
   const res  = +document.getElementById('dep-res').value;
   const life = +document.getElementById('dep-life').value;
@@ -4375,6 +4544,7 @@ function updateDep() {
 // ═══════════════════ TOOL 15: CONTRIBUTION ═══════════════════
 let contribChart2 = null;
 function updateContrib() {
+  if(typeof recordToolUse==='function') recordToolUse('contribution');
   const prods = [0,1,2].map(function(i) {
     return {
       sp:    +document.getElementById('cp' + i + '-sp').value,
@@ -4457,6 +4627,7 @@ const VAR_DEFAULTS = { rev1:150000, rev2:20000, cos1:60000, cos2:40000, cos3:150
 const VAR_ACTUALS  = { rev1:160000, rev2:18000, cos1:65000, cos2:38000, cos3:17000, cos4:12000 };
 
 function buildVarianceTable() {
+  if(typeof recordToolUse==='function') recordToolUse('variance');
   const wrap = document.getElementById('variance-table-wrap');
   if (!wrap) return;
   let t = '<table style="width:100%;border-collapse:collapse;font-size:.9em;">';
@@ -4533,6 +4704,7 @@ function updateVariance() {
 // ═══════════════════ TOOL 17: WORKING CAPITAL ═══════════════════
 let wcChart2 = null;
 function updateWC() {
+  if(typeof recordToolUse==='function') recordToolUse('wc');
   const ca  = +document.getElementById('wc-ca').value;
   const cl  = +document.getElementById('wc-cl').value;
   const inv = +document.getElementById('wc-inv').value;
@@ -4599,6 +4771,341 @@ function updateWC() {
   else insights.push('CCC of ' + ccc + ' days — efficient cash cycle, converting activity to cash quickly.');
   if (wc < 0) insights.push('Negative working capital: current liabilities exceed current assets. Potential liquidity crisis.');
   document.getElementById('wc-insight').innerHTML = insights.length ? '<strong>Working Capital Analysis:</strong> ' + insights.join(' ') : '';
+}
+
+
+
+// ═══════════════════ MOBILE NAV ═══════════════════
+function toggleNav() {
+  const links = document.getElementById('nav-links-dropdown');
+  const burger = document.getElementById('nav-hamburger');
+  if (!links) return;
+  links.classList.toggle('open');
+  // Animate hamburger
+  const spans = burger.querySelectorAll('span');
+  if (links.classList.contains('open')) {
+    spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity = '0';
+    spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+  } else {
+    spans[0].style.transform = '';
+    spans[1].style.opacity = '';
+    spans[2].style.transform = '';
+  }
+}
+function closeNav() {
+  const links = document.getElementById('nav-links-dropdown');
+  const burger = document.getElementById('nav-hamburger');
+  if (!links) return;
+  links.classList.remove('open');
+  if (burger) {
+    const spans = burger.querySelectorAll('span');
+    spans[0].style.transform = '';
+    spans[1].style.opacity = '';
+    spans[2].style.transform = '';
+  }
+}
+function jumpToTool(toolId) {
+  const el = document.getElementById(toolId);
+  if (!el) return;
+  setTimeout(function() {
+    const top = el.getBoundingClientRect().top + window.scrollY - 130;
+    window.scrollTo({ top, behavior: 'smooth' });
+    // Highlight briefly
+    el.style.outline = '3px solid var(--accent)';
+    setTimeout(function() { el.style.outline = ''; }, 1500);
+  }, 50);
+}
+
+
+
+// ═══════════════════ PROGRESS TRACKER (localStorage) ═══════════════════
+
+const PROGRESS_KEY = 'bsRevisionProgress_v1';
+const TOOL_NAMES = {
+  'break-even':'Break-Even','ped':'PED','ansoff':'Ansoff Matrix',
+  'invest':'Investment Appraisal','exchange':'Exchange Rate',
+  'supdem':'Supply & Demand','cashflow':'Cash Flow',
+  'ratios':'Financial Ratios','dtree':'Decision Tree',
+  'boston':'Boston Matrix','stock':'Stock Control',
+  'pl':'P&L Statement','bs':'Balance Sheet','depreciation':'Depreciation',
+  'contribution':'Contribution','variance':'Budget Variance','wc':'Working Capital'
+};
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    if (!raw) return defaultProgress();
+    return Object.assign(defaultProgress(), JSON.parse(raw));
+  } catch(e) { return defaultProgress(); }
+}
+function defaultProgress() {
+  return { studentName:'', flashcards:{}, sessions:[], toolsUsed:{}, topicsVisited:{}, streak:{ lastDate:'', count:0 } };
+}
+function saveProgress(p) {
+  try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); } catch(e) {}
+}
+
+// Called when a flashcard is marked known or review
+function recordFlashcard(termId, status) {
+  const p = loadProgress();
+  if (!p.flashcards[termId]) p.flashcards[termId] = { status:'unseen', attempts:0, firstSeen:Date.now() };
+  p.flashcards[termId].status   = status;
+  p.flashcards[termId].lastSeen = Date.now();
+  p.flashcards[termId].attempts = (p.flashcards[termId].attempts || 0) + 1;
+  // Update streak
+  const today = new Date().toISOString().slice(0,10);
+  if (p.streak.lastDate !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+    p.streak.count = p.streak.lastDate === yesterday ? p.streak.count + 1 : 1;
+    p.streak.lastDate = today;
+  }
+  // Log session
+  const lastSession = p.sessions[p.sessions.length - 1];
+  const todayLabel = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  if (lastSession && lastSession.date === todayLabel) {
+    lastSession.cards++;
+    if (status === 'known') lastSession.known++;
+  } else {
+    p.sessions.push({ date: todayLabel, cards: 1, known: status === 'known' ? 1 : 0 });
+  }
+  saveProgress(p);
+  // Update home page live stats if visible
+  updateHomeProgressStats();
+}
+
+// Called when a tool is opened
+function recordToolUse(toolId) {
+  const p = loadProgress();
+  p.toolsUsed[toolId] = (p.toolsUsed[toolId] || 0) + 1;
+  saveProgress(p);
+}
+
+// Called when a topic page is visited
+function recordTopicVisit(topicCode) {
+  const p = loadProgress();
+  p.topicsVisited[topicCode] = true;
+  saveProgress(p);
+}
+
+function saveStudentName() {
+  const input = document.getElementById('student-name-input');
+  if (!input || !input.value.trim()) return;
+  const p = loadProgress();
+  p.studentName = input.value.trim();
+  saveProgress(p);
+  renderProgressPage();
+}
+
+function resetProgress() {
+  if (!confirm('Reset ALL your progress data? This cannot be undone.')) return;
+  localStorage.removeItem(PROGRESS_KEY);
+  renderProgressPage();
+}
+
+function updateHomeProgressStats() {
+  const p = loadProgress();
+  const total = Object.keys(p.flashcards).length;
+  const known = Object.values(p.flashcards).filter(f => f.status === 'known').length;
+  const review = Object.values(p.flashcards).filter(f => f.status === 'review').length;
+  const el = document.getElementById('home-progress-banner');
+  if (!el) return;
+  if (total === 0) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  el.innerHTML = '<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">' +
+    '<div>📈 <strong>Your progress:</strong></div>' +
+    '<div style="color:#2e7d32;">✅ ' + known + ' known</div>' +
+    '<div style="color:#e65100;">🔄 ' + review + ' still learning</div>' +
+    '<div style="color:var(--muted);">⬜ ' + (980 - total) + ' not yet seen</div>' +
+    '<div style="flex:1;min-width:120px;background:var(--border);border-radius:6px;height:8px;overflow:hidden;">' +
+    '<div style="height:100%;width:' + Math.round(known/980*100) + '%;background:#2e7d32;"></div></div>' +
+    '<button onclick="showPage(\'progress\')" style="padding:4px 12px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:.82em;">View details</button>' +
+    '</div>';
+}
+
+function renderProgressPage() {
+  const p = loadProgress();
+  const total    = 980;
+  const seen     = Object.keys(p.flashcards).length;
+  const known    = Object.values(p.flashcards).filter(f => f.status === 'known').length;
+  const review   = Object.values(p.flashcards).filter(f => f.status === 'review').length;
+  const unseen   = total - seen;
+  const pct      = Math.round(known / total * 100);
+
+  // Setup banner
+  const setupEl = document.getElementById('progress-setup');
+  if (setupEl) {
+    if (!p.studentName) {
+      setupEl.style.display = '';
+    } else {
+      setupEl.style.display = 'none';
+      document.querySelector('#page-progress .hero h2').textContent = '📈 ' + p.studentName + "'s Progress";
+    }
+  }
+
+  // Stats grid
+  const statsGrid = document.getElementById('progress-stats-grid');
+  if (statsGrid) statsGrid.innerHTML =
+    '<div class="stat-block card"><div class="stat-num" style="color:#4c5fc7">' + known + '</div><div class="stat-label">Terms Known</div></div>' +
+    '<div class="stat-block card"><div class="stat-num" style="color:#e65100">' + review + '</div><div class="stat-label">Still Learning</div></div>' +
+    '<div class="stat-block card"><div class="stat-num" style="color:#2e7d32">' + pct + '%</div><div class="stat-label">Mastery</div></div>' +
+    '<div class="stat-block card"><div class="stat-num" style="color:#c62828">' + (p.streak.count || 0) + '</div><div class="stat-label">Day Streak 🔥</div></div>';
+
+  // Progress bar
+  const barFill = document.getElementById('progress-bar-fill');
+  const barPct  = document.getElementById('progress-pct-label');
+  if (barFill) barFill.style.width = pct + '%';
+  if (barPct)  barPct.textContent  = pct + '% mastered';
+  const knEl = document.getElementById('pg-known');
+  const rvEl = document.getElementById('pg-review');
+  const unEl = document.getElementById('pg-unseen');
+  if (knEl) knEl.textContent = known;
+  if (rvEl) rvEl.textContent = review;
+  if (unEl) unEl.textContent = unseen;
+
+  // Sessions
+  const sessEl = document.getElementById('progress-sessions');
+  if (sessEl) {
+    if (!p.sessions.length) {
+      sessEl.innerHTML = '<div style="color:var(--muted);font-style:italic;">No sessions yet. Start some flashcards!</div>';
+    } else {
+      const recent = p.sessions.slice(-10).reverse();
+      sessEl.innerHTML = recent.map(function(s) {
+        return '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted var(--border);">' +
+          '<span>' + s.date + '</span>' +
+          '<span style="color:var(--muted);">' + s.cards + ' cards &nbsp;|&nbsp; <span style="color:#2e7d32;">' + (s.known||0) + ' known</span></span></div>';
+      }).join('');
+    }
+  }
+
+  // Knowledge gaps
+  const gapsEl = document.getElementById('progress-gaps');
+  if (gapsEl) {
+    const gaps = Object.entries(p.flashcards)
+      .filter(function(e){ return e[1].status === 'review'; })
+      .sort(function(a,b){ return (b[1].attempts||0) - (a[1].attempts||0); });
+    if (!gaps.length) {
+      gapsEl.innerHTML = '<div style="color:#2e7d32;">No gaps identified yet — keep going with the flashcards!</div>';
+    } else {
+      // Look up term names from CURRICULUM data
+      gapsEl.innerHTML = gaps.slice(0,30).map(function(e) {
+        const termId = e[0];
+        const data   = e[1];
+        // Find term in CURRICULUM
+        let termName = termId;
+        if (typeof CURRICULUM !== 'undefined') {
+          for (const th of CURRICULUM.themes) {
+            for (const topic of th.topics) {
+              const found = (topic.terms || []).find(function(t){ return t.id === termId || t.term === termId; });
+              if (found) { termName = found.term; break; }
+            }
+            if (termName !== termId) break;
+          }
+        }
+        return '<div style="padding:4px 0;border-bottom:1px dotted var(--border);display:flex;justify-content:space-between;">' +
+          '<span>⚠️ ' + termName + '</span>' +
+          '<span style="color:var(--muted);font-size:.8em;">' + (data.attempts||1) + ' attempt' + ((data.attempts||1)>1?'s':'') + '</span></div>';
+      }).join('') + (gaps.length > 30 ? '<div style="color:var(--muted);font-style:italic;margin-top:6px;">+ ' + (gaps.length-30) + ' more</div>' : '');
+    }
+  }
+
+  // Tools used
+  const toolsEl = document.getElementById('progress-tools');
+  if (toolsEl) {
+    const used = Object.entries(p.toolsUsed).filter(function(e){ return e[1] > 0; });
+    if (!used.length) {
+      toolsEl.innerHTML = '<div style="color:var(--muted);font-style:italic;">No tools used yet. Head to the Tools page!</div>';
+    } else {
+      toolsEl.innerHTML = used.map(function(e) {
+        return '<span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.82em;">' +
+          (TOOL_NAMES[e[0]] || e[0]) + ' <span style="color:var(--accent);font-weight:700;">×' + e[1] + '</span></span>';
+      }).join('');
+    }
+  }
+}
+
+function exportTutorReport() {
+  const p    = loadProgress();
+  const note = (document.getElementById('tutor-email-note') || {}).value || '';
+  const total = 980;
+  const known   = Object.values(p.flashcards).filter(function(f){ return f.status === 'known'; }).length;
+  const review  = Object.values(p.flashcards).filter(function(f){ return f.status === 'review'; }).length;
+  const seen    = Object.keys(p.flashcards).length;
+  const pct     = Math.round(known / total * 100);
+  const today   = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  const name    = p.studentName || 'Student';
+
+  // Build gap list with term names
+  const gaps = Object.entries(p.flashcards).filter(function(e){ return e[1].status === 'review'; });
+  let gapHTML = '';
+  if (typeof CURRICULUM !== 'undefined') {
+    const termMap = {};
+    for (const th of CURRICULUM.themes) {
+      for (const topic of th.topics) {
+        for (const t of (topic.terms||[])) {
+          termMap[t.id || t.term] = { term: t.term, topic: topic.name || '', theme: th.name || '' };
+        }
+      }
+    }
+    const gapDetails = gaps.map(function(e) {
+      const info = termMap[e[0]] || { term: e[0], topic:'', theme:'' };
+      return { name: info.term, topic: info.topic, theme: info.theme, attempts: e[1].attempts || 1 };
+    }).sort(function(a,b){ return b.attempts - a.attempts; });
+
+    if (gapDetails.length) {
+      gapHTML = '<table style="width:100%;border-collapse:collapse;margin-top:8px;font-size:.9em;">' +
+        '<thead><tr style="background:#4c5fc7;color:#fff;"><th style="padding:8px;text-align:left;">Term</th><th>Topic</th><th>Attempts</th></tr></thead><tbody>' +
+        gapDetails.map(function(g, i) {
+          return '<tr style="background:' + (i%2===0?'#f5f5f5':'#fff') + ';"><td style="padding:6px 8px;">' + g.name + '</td><td style="padding:6px 8px;color:#666;">' + g.topic + '</td><td style="padding:6px 8px;text-align:center;">' + g.attempts + '</td></tr>';
+        }).join('') + '</tbody></table>';
+    } else {
+      gapHTML = '<p style="color:#2e7d32;font-weight:600;">No knowledge gaps identified — all reviewed terms are marked as known. Excellent work!</p>';
+    }
+  }
+
+  const sessHTML = p.sessions.slice(-10).reverse().map(function(s) {
+    return '<tr><td style="padding:5px 8px;">' + s.date + '</td><td style="padding:5px 8px;">' + (s.cards||0) + '</td><td style="padding:5px 8px;color:#2e7d32;">' + (s.known||0) + '</td><td style="padding:5px 8px;color:#e65100;">' + ((s.cards||0)-(s.known||0)) + '</td></tr>';
+  }).join('');
+
+  const reportHTML = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Progress Report — ' + name + '</title>' +
+    '<style>body{font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:32px;color:#222;}' +
+    'h1{color:#1a237e;border-bottom:3px solid #1a237e;padding-bottom:8px;}' +
+    'h2{color:#283593;margin-top:24px;}' +
+    '.stat-row{display:flex;gap:24px;margin:16px 0;}' +
+    '.stat{background:#f5f5f5;border-radius:8px;padding:16px 20px;text-align:center;flex:1;}' +
+    '.stat-num{font-size:2em;font-weight:700;color:#1a237e;}' +
+    '.stat-label{font-size:.85em;color:#666;margin-top:4px;}' +
+    '.bar-wrap{background:#ddd;border-radius:8px;height:20px;overflow:hidden;margin:12px 0;}' +
+    '.bar-fill{height:100%;background:linear-gradient(90deg,#4c5fc7,#2e7d32);}' +
+    'table{width:100%;border-collapse:collapse;}th{background:#1a237e;color:#fff;padding:8px;}' +
+    'tr:nth-child(even){background:#f5f5f5;}' +
+    '@media print{button{display:none!important;}}' +
+    '</style></head><body>' +
+    '<div style="text-align:right;margin-bottom:8px;"><button onclick="window.print()" style="padding:8px 20px;background:#1a237e;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:1em;">🖨️ Print / Save as PDF</button></div>' +
+    '<h1>A-Level Business Studies — Progress Report</h1>' +
+    '<p><strong>Student:</strong> ' + name + ' &nbsp;|&nbsp; <strong>Report date:</strong> ' + today + '</p>' +
+    (note ? '<p style="background:#fff9c4;padding:10px 14px;border-radius:8px;"><strong>Note:</strong> ' + note + '</p>' : '') +
+    '<div class="stat-row">' +
+    '<div class="stat"><div class="stat-num">' + known + '</div><div class="stat-label">Terms Known</div></div>' +
+    '<div class="stat"><div class="stat-num">' + review + '</div><div class="stat-label">Still Learning</div></div>' +
+    '<div class="stat"><div class="stat-num">' + seen + '</div><div class="stat-label">Cards Seen</div></div>' +
+    '<div class="stat"><div class="stat-num">' + pct + '%</div><div class="stat-label">Mastery</div></div>' +
+    '</div>' +
+    '<div class="bar-wrap"><div class="bar-fill" style="width:' + pct + '%;"></div></div>' +
+    '<p style="font-size:.85em;color:#666;">' + known + ' of ' + total + ' terms mastered (' + pct + '%) &nbsp;|&nbsp; Study streak: ' + (p.streak.count||0) + ' day(s)</p>' +
+    '<h2>Session History (last 10)</h2>' +
+    '<table><thead><tr><th>Date</th><th>Cards Reviewed</th><th>Known</th><th>Still Learning</th></tr></thead><tbody>' + sessHTML + '</tbody></table>' +
+    '<h2>Knowledge Gaps (' + gaps.length + ' terms)</h2>' + gapHTML +
+    '<h2>Tools Used</h2>' +
+    '<p>' + Object.entries(p.toolsUsed).filter(function(e){return e[1]>0;}).map(function(e){ return (TOOL_NAMES[e[0]]||e[0]) + ' (' + e[1] + 'x)'; }).join(', ') + '</p>' +
+    '<hr style="margin-top:32px;"><p style="font-size:.8em;color:#999;">Generated by A-Level Business Studies Revision Platform · ' + today + '</p>' +
+    '</body></html>';
+
+  const blob = new Blob([reportHTML], { type: 'text/html' });
+  const url  = URL.createObjectURL(blob);
+  const win  = window.open(url, '_blank');
+  if (!win) { alert('Please allow pop-ups to open the report, or try again.'); }
+  setTimeout(function() { URL.revokeObjectURL(url); }, 60000);
 }
 
 
