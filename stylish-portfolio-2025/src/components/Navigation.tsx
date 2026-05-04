@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import ThemeToggle from './ThemeToggle';
-import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,26 +15,27 @@ const Navigation = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navItems = [
-    { name: 'Businesses', href: '/portfolio' },
-    { name: 'Journey', href: '/about' },
-    { name: 'Cycling', href: '/cycling' },
-    { name: 'ADHD', href: '/adhd' },
-    { name: 'Tutoring', href: '/tutoring' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Connect', href: '/contact' },
+    { name: "Businesses", href: "/portfolio" },
+    { name: "Journey", href: "/about" },
+    { name: "Cycling", href: "/cycling" },
+    { name: "ADHD", href: "/adhd" },
+    { name: "Tutoring", href: "/tutoring" },
+    { name: "Blog", href: "/blog" },
+    { name: "Connect", href: "/contact" },
   ];
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-          ? 'bg-background/80 backdrop-blur-xl border-b border-border/50'
-          : 'bg-transparent'
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-background/80 backdrop-blur-xl border-b border-border/50"
+          : "bg-transparent"
+      }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -51,7 +52,8 @@ const Navigation = () => {
               href="/"
               className="text-2xl font-display font-bold tracking-tight hover:text-accent transition-colors duration-200"
             >
-              Martin<span className="text-secondary">Cox</span><span className="text-accent">.</span>
+              Martin<span className="text-secondary">Cox</span>
+              <span className="text-accent">.</span>
             </Link>
           </motion.div>
 
@@ -94,11 +96,8 @@ const Navigation = () => {
           >
             <div className="hidden sm:flex items-center gap-3">
               <ThemeToggle />
-              <Button
-                variant="outline"
-                className="rounded-full px-6"
-              >
-                Book a Call
+              <Button asChild variant="outline" className="rounded-full px-6">
+                <Link href="/book-call">Book a Call</Link>
               </Button>
             </div>
 
@@ -116,7 +115,7 @@ const Navigation = () => {
                   className="w-6 h-0.5 bg-foreground block"
                   variants={{
                     closed: { rotate: 0, y: 0 },
-                    open: { rotate: 45, y: 6 }
+                    open: { rotate: 45, y: 6 },
                   }}
                   transition={{ duration: 0.3 }}
                 />
@@ -124,7 +123,7 @@ const Navigation = () => {
                   className="w-6 h-0.5 bg-foreground block mt-1"
                   variants={{
                     closed: { opacity: 1 },
-                    open: { opacity: 0 }
+                    open: { opacity: 0 },
                   }}
                   transition={{ duration: 0.3 }}
                 />
@@ -132,7 +131,7 @@ const Navigation = () => {
                   className="w-6 h-0.5 bg-foreground block mt-1"
                   variants={{
                     closed: { rotate: 0, y: 0 },
-                    open: { rotate: -45, y: -6 }
+                    open: { rotate: -45, y: -6 },
                   }}
                   transition={{ duration: 0.3 }}
                 />
@@ -145,7 +144,7 @@ const Navigation = () => {
         <motion.div
           className="md:hidden overflow-hidden"
           initial={{ height: 0 }}
-          animate={{ height: isMenuOpen ? 'auto' : 0 }}
+          animate={{ height: isMenuOpen ? "auto" : 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           <div className="pt-6 pb-4 space-y-4">
@@ -155,7 +154,7 @@ const Navigation = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{
                   opacity: isMenuOpen ? 1 : 0,
-                  x: isMenuOpen ? 0 : -20
+                  x: isMenuOpen ? 0 : -20,
                 }}
                 transition={{ duration: 0.2, delay: index * 0.1 }}
               >
@@ -172,7 +171,7 @@ const Navigation = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{
                 opacity: isMenuOpen ? 1 : 0,
-                x: isMenuOpen ? 0 : -20
+                x: isMenuOpen ? 0 : -20,
               }}
               transition={{ duration: 0.2, delay: 0.3 }}
               className="pt-2 space-y-4"
@@ -181,8 +180,8 @@ const Navigation = () => {
                 <span className="text-sm font-medium">Theme</span>
                 <ThemeToggle />
               </div>
-              <Button className="w-full rounded-full">
-                Book a Call
+              <Button asChild className="w-full rounded-full">
+                <Link href="/book-call">Book a Call</Link>
               </Button>
             </motion.div>
           </div>

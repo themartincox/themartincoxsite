@@ -3,29 +3,23 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Mail, MapPin, Globe, Linkedin, Instagram, Twitter } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {
-    work: [
+    services: [
       { name: 'Portfolio', href: '/portfolio' },
-      { name: 'Case Studies', href: '/portfolio' },
-      { name: 'Brand Identity', href: '/portfolio' },
-      { name: 'Web Design', href: '/portfolio' },
-    ],
-    company: [
-      { name: 'About', href: '/about' },
-      { name: 'Process', href: '/about' },
-      { name: 'Contact', href: '/contact' },
-      { name: 'Book a Call', href: '/book-call' },
-    ],
-    resources: [
-      { name: 'Blog', href: '/blog' },
       { name: 'Tutoring', href: '/tutoring' },
-      { name: 'Design Tips', href: '/blog' },
-      { name: 'Case Studies', href: '/portfolio' },
-      { name: 'Downloads', href: '#' },
+      { name: 'Book a Call', href: '/book-call' },
+      { name: 'Contact', href: '/contact' },
+    ],
+    explore: [
+      { name: 'About', href: '/about' },
+      { name: 'Cycling', href: '/cycling' },
+      { name: 'ADHD', href: '/adhd' },
+      { name: 'Blog', href: '/blog' },
     ],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
@@ -35,11 +29,9 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { name: 'LinkedIn', href: '#', icon: '💼' },
-    { name: 'Instagram', href: '#', icon: '📷' },
-    { name: 'Behance', href: '#', icon: '🎨' },
-    { name: 'Dribbble', href: '#', icon: '🏀' },
-    { name: 'Twitter', href: '#', icon: '🐦' },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/in/themartincox', Icon: Linkedin },
+    { name: 'Instagram', href: 'https://www.instagram.com/themartincox', Icon: Instagram },
+    { name: 'Twitter / X', href: 'https://x.com/themartincox', Icon: Twitter },
   ];
 
   return (
@@ -55,11 +47,10 @@ const Footer = () => {
             className="max-w-4xl mx-auto text-center"
           >
             <h2 className="text-3xl md:text-4xl font-display font-semibold text-white mb-6">
-              Stay Inspired
+              Get the Newsletter
             </h2>
             <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto text-pretty">
-              Get exclusive insights into my creative process, design trends,
-              and behind-the-scenes looks at current projects.
+              Business strategy, ADHD insights, cycling adventures, and entrepreneurship lessons — delivered once or twice a month.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
@@ -76,7 +67,7 @@ const Footer = () => {
             </div>
 
             <p className="text-xs text-white/60 mt-4">
-              No spam, unsubscribe anytime. Usually 1-2 emails per month.
+              No spam, unsubscribe anytime. Usually 1–2 emails per month.
             </p>
           </motion.div>
         </div>
@@ -85,7 +76,7 @@ const Footer = () => {
       {/* Main Footer Content */}
       <section className="py-16">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
             {/* Brand Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -99,40 +90,39 @@ const Footer = () => {
                   Martin<span className="text-secondary">Cox</span><span className="text-accent">.</span>
                 </h3>
                 <p className="text-white/70 leading-relaxed">
-                  Professional athlete turned serial entrepreneur. Building £multi-million businesses
-                  and transforming ADHD into entrepreneurial advantage. Based in Nottingham, UK.
+                  Serial entrepreneur, ultra-distance cyclist, and ADHD advocate. Building £multi-million businesses and transforming neurodiversity into entrepreneurial advantage. Based in Nottingham, UK.
                 </p>
               </div>
 
               {/* Contact Info */}
               <div className="space-y-3 text-sm text-white/60">
                 <div className="flex items-center gap-3">
-                  <span>📧</span>
+                  <Mail className="w-4 h-4 shrink-0" />
                   <a href="mailto:martin@postino.cc" className="hover:text-white transition-colors duration-200">
                     martin@postino.cc
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span>🌐</span>
-                  <span>www.themartincox.co.uk</span>
+                  <Globe className="w-4 h-4 shrink-0" />
+                  <span>themartincox.co.uk</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span>📍</span>
+                  <MapPin className="w-4 h-4 shrink-0" />
                   <span>Nottingham, UK</span>
                 </div>
               </div>
             </motion.div>
 
-            {/* Work Links */}
+            {/* Services Links */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              <h4 className="font-semibold text-white mb-4">Work</h4>
+              <h4 className="font-semibold text-white mb-4">Services</h4>
               <ul className="space-y-3">
-                {footerLinks.work.map((link) => (
+                {footerLinks.services.map((link) => (
                   <li key={link.name}>
                     <a
                       href={link.href}
@@ -145,38 +135,16 @@ const Footer = () => {
               </ul>
             </motion.div>
 
-            {/* Company Links */}
+            {/* Explore Links */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <h4 className="font-semibold text-white mb-4">Company</h4>
+              <h4 className="font-semibold text-white mb-4">Explore</h4>
               <ul className="space-y-3">
-                {footerLinks.company.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-white/70 hover:text-white transition-colors duration-200 text-sm"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Resources Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="font-semibold text-white mb-4">Resources</h4>
-              <ul className="space-y-3">
-                {footerLinks.resources.map((link) => (
+                {footerLinks.explore.map((link) => (
                   <li key={link.name}>
                     <a
                       href={link.href}
@@ -193,7 +161,7 @@ const Footer = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
             >
               <h4 className="font-semibold text-white mb-4">Legal</h4>
@@ -216,7 +184,7 @@ const Footer = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
             className="flex flex-col sm:flex-row justify-between items-center pt-8 border-t border-white/10"
           >
@@ -225,15 +193,17 @@ const Footer = () => {
                 <motion.a
                   key={social.name}
                   href={social.href}
-                  className="text-2xl hover:scale-110 transition-transform duration-200"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/60 hover:text-white hover:scale-110 transition-all duration-200"
                   whileHover={{ y: -2 }}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
+                  transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                   viewport={{ once: true }}
                   aria-label={social.name}
                 >
-                  {social.icon}
+                  <social.Icon className="w-5 h-5" />
                 </motion.a>
               ))}
             </div>
@@ -241,7 +211,7 @@ const Footer = () => {
             <div className="text-sm text-white/60 text-center sm:text-right">
               <p>© {currentYear} Martin Cox. All rights reserved.</p>
               <p className="mt-1">
-                Website Delivered by{' '}
+                Website delivered by{' '}
                 <a
                   href="https://www.postino.cc"
                   target="_blank"
@@ -250,7 +220,7 @@ const Footer = () => {
                 >
                   Postino
                 </a>
-                , In Nottingham, UK
+                , Nottingham, UK
               </p>
             </div>
           </motion.div>
