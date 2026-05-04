@@ -1,19 +1,22 @@
 "use client";
 
-import Link from "next/link";
+import { KineticMarquee } from "@/components/KineticMarquee";
+import { MagneticButton } from "@/components/MagneticButton";
+import { ScrambleText } from "@/components/ScrambleText";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
   ArrowUpRight,
-  Brain,
   BarChart3,
-  Package,
+  Brain,
+  Dumbbell,
   Factory,
+  type LucideIcon,
+  Package,
   Target,
   Zap,
-  Dumbbell,
-  type LucideIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 interface Business {
   num: string;
@@ -105,7 +108,7 @@ const roadToBoardroom = [
   },
 ];
 
-const brands = [
+const marqueeItems1 = [
   "Oakley",
   "Sony",
   "Jaguar Land Rover",
@@ -113,58 +116,80 @@ const brands = [
   "Thales",
   "Ikano",
   "Genie Lifting",
+  "Marketing Strategy",
+  "Product Innovation",
+  "E-commerce",
 ];
+
+const marqueeItems2 = [
+  "4,200 km",
+  "Trans America",
+  "Ultra Distance",
+  "47 Days Riding",
+  "Hyperfocus",
+  "Pattern Recognition",
+  "Goal Setting",
+  "Resilience",
+  "ADHD Advocate",
+  "Serial Entrepreneur",
+];
+
+const spring = { type: "spring" as const, stiffness: 80, damping: 20 };
+
+const glowBarVariants = {
+  idle: { scaleY: 0 },
+  hover: {
+    scaleY: 1,
+    transition: { type: "spring" as const, stiffness: 400, damping: 30 },
+  },
+};
 
 export default function HomeContent() {
   return (
     <main className="min-h-screen overflow-hidden">
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center pt-24 pb-16 md:pt-32">
+      <section className="relative min-h-[100dvh] flex items-center pt-24 pb-16 md:pt-32">
         <div className="absolute inset-0 pattern-grid" />
 
         <div className="container relative z-10">
-          {/* Tagline */}
           <motion.p
-            className="text-sm font-medium tracking-[0.2em] uppercase text-muted-foreground mb-8"
+            className="text-xs font-medium tracking-[0.3em] uppercase text-muted-foreground mb-6"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={spring}
           >
             Serial Entrepreneur · Ultra-Distance Cyclist · ADHD Advocate ·
             Nottingham, UK
           </motion.p>
 
-          {/* Name — Massive Syne */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
+            transition={{ ...spring, delay: 0.1 }}
           >
             <div className="text-[clamp(4.5rem,11vw,9.5rem)] leading-none font-extrabold tracking-tight font-display">
-              Martin
+              <ScrambleText text="Martin" delay={400} />
             </div>
             <div className="text-[clamp(4.5rem,11vw,9.5rem)] leading-none font-extrabold tracking-tight font-display">
-              <span className="text-secondary">Cox</span>
+              <ScrambleText text="Cox" delay={600} className="text-secondary" />
               <span className="text-accent">.</span>
             </div>
           </motion.div>
 
-          {/* Animated rule */}
           <motion.div
-            className="h-px bg-foreground mt-8 mb-10"
+            className="h-px bg-foreground/20 mt-8 mb-10"
             style={{ transformOrigin: "0 50%" }}
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+            transition={{ ...spring, delay: 0.5 }}
           />
 
-          {/* Description + CTAs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start max-w-5xl">
+          <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-12 items-start max-w-5xl">
             <motion.p
               className="text-lg md:text-xl text-muted-foreground leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.65 }}
+              transition={{ ...spring, delay: 0.65 }}
             >
               Adventure cyclist and serial entrepreneur. From 4,200 km Trans
               America races to building £multi-million businesses. Turning ADHD
@@ -172,43 +197,48 @@ export default function HomeContent() {
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.75 }}
+              transition={{ ...spring, delay: 0.75 }}
             >
-              <Button
-                asChild
-                size="lg"
-                className="px-10 py-6 text-base rounded-none font-semibold bg-secondary hover:bg-secondary/90"
-              >
-                <Link href="/about">My Story</Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="px-10 py-6 text-base rounded-none font-semibold border-foreground hover:bg-foreground hover:text-background"
-              >
-                <Link href="/book-call">Work With Me</Link>
-              </Button>
+              <MagneticButton className="w-full">
+                <Button
+                  asChild
+                  size="lg"
+                  className="px-10 py-6 text-base rounded-none font-semibold bg-secondary hover:bg-secondary/90 text-secondary-foreground w-full"
+                >
+                  <Link href="/about">My Story</Link>
+                </Button>
+              </MagneticButton>
+              <MagneticButton className="w-full">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="px-10 py-6 text-base rounded-none font-semibold border-foreground/40 hover:bg-foreground hover:text-background w-full"
+                >
+                  <Link href="/book-call">Work With Me</Link>
+                </Button>
+              </MagneticButton>
             </motion.div>
           </div>
 
-          {/* Stats strip */}
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-0 border-t border-foreground/20 mt-16 pt-12"
+            className="grid grid-cols-2 border border-foreground/10 mt-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.9 }}
+            transition={{ ...spring, delay: 0.9 }}
           >
             {heroStats.map((stat, index) => (
               <div
                 key={stat.label}
-                className={`pr-8 ${index > 0 ? "pl-8 border-l border-foreground/20" : ""}`}
+                className={`p-6 md:p-10 ${index % 2 === 0 ? "border-r border-foreground/10" : ""} ${index < 2 ? "border-b border-foreground/10" : ""}`}
               >
-                <div className="stat-display text-foreground">{stat.value}</div>
-                <div className="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground mt-1">
+                <div className="stat-display-xl text-secondary leading-none">
+                  {stat.value}
+                </div>
+                <div className="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground mt-3">
                   {stat.label}
                 </div>
               </div>
@@ -217,113 +247,116 @@ export default function HomeContent() {
         </div>
       </section>
 
+      {/* ── MARQUEE BAND #1 ── */}
+      <div className="border-y border-border">
+        <KineticMarquee items={marqueeItems1} speed={45} className="py-3" />
+      </div>
+
       {/* ── BUSINESS PORTFOLIO ── */}
-      <section className="section-padding border-t border-border">
+      <section className="section-padding">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={spring}
             viewport={{ once: true }}
-            className="mb-16 max-w-2xl"
+            className="mb-16"
           >
-            <h2 className="mb-4">Building Portfolio</h2>
-            <p className="text-lg text-muted-foreground">
-              Three distinct businesses, each solving a real problem. Built from
-              zero, scaled with intent.
+            <p className="text-xs font-medium tracking-[0.3em] uppercase text-muted-foreground mb-4">
+              Building Portfolio
             </p>
+            <h2 className="max-w-2xl">
+              Three Businesses.{" "}
+              <span className="text-secondary">Real Problems.</span> Zero
+              Excuses.
+            </h2>
           </motion.div>
 
           <div className="divide-y divide-border border-t border-border">
             {businessPortfolio.map((biz, index) => (
-              <motion.a
+              <motion.div
                 key={biz.title}
-                href={biz.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col md:flex-row md:items-center gap-6 py-10 hover:border-secondary transition-colors duration-200"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
+                transition={{ ...spring, delay: index * 0.08 }}
                 viewport={{ once: true }}
               >
-                {/* Number */}
-                <div className="font-stat text-[3.5rem] leading-none text-muted-foreground/40 group-hover:text-secondary transition-colors duration-300 w-20 flex-shrink-0">
-                  {biz.num}
-                </div>
+                <motion.a
+                  href={biz.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial="idle"
+                  whileHover="hover"
+                  className="group relative flex flex-col md:flex-row md:items-center gap-6 py-10 pl-6 block"
+                >
+                  <motion.div
+                    variants={glowBarVariants}
+                    className="absolute left-0 top-0 bottom-0 w-[2px] bg-secondary origin-bottom"
+                  />
 
-                {/* Icon */}
-                <div className="hidden md:flex w-12 h-12 items-center justify-center border border-border group-hover:border-secondary group-hover:text-secondary transition-colors duration-300 flex-shrink-0">
-                  <biz.Icon className="w-5 h-5" />
-                </div>
-
-                {/* Content */}
-                <div className="flex-grow">
-                  <div className="flex flex-wrap items-baseline gap-3 mb-2">
-                    <h3 className="text-2xl font-display font-bold group-hover:text-secondary transition-colors duration-300">
-                      {biz.title}
-                    </h3>
-                    <span className="text-sm text-muted-foreground font-medium">
-                      {biz.subtitle}
-                    </span>
+                  <div className="font-stat text-[3.5rem] leading-none text-muted-foreground/30 group-hover:text-secondary transition-colors duration-300 w-20 flex-shrink-0">
+                    {biz.num}
                   </div>
-                  <p className="text-muted-foreground leading-relaxed max-w-xl">
-                    {biz.description}
-                  </p>
-                </div>
 
-                {/* Metric + arrow */}
-                <div className="flex items-center gap-4 flex-shrink-0">
-                  <span className="text-sm font-bold text-accent bg-accent/10 px-3 py-1 border border-accent/20">
-                    {biz.metric}
-                  </span>
-                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-secondary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
-                </div>
-              </motion.a>
+                  <div className="hidden md:flex w-12 h-12 items-center justify-center border border-border group-hover:border-secondary group-hover:text-secondary transition-colors duration-300 flex-shrink-0">
+                    <biz.Icon className="w-5 h-5" />
+                  </div>
+
+                  <div className="flex-grow">
+                    <div className="flex flex-wrap items-baseline gap-3 mb-2">
+                      <h3 className="text-2xl font-display font-bold group-hover:text-secondary transition-colors duration-300">
+                        {biz.title}
+                      </h3>
+                      <span className="text-sm text-muted-foreground font-medium">
+                        {biz.subtitle}
+                      </span>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed max-w-xl">
+                      {biz.description}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-4 flex-shrink-0">
+                    <span className="text-sm font-bold text-accent bg-accent/10 px-3 py-1 border border-accent/20">
+                      {biz.metric}
+                    </span>
+                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-secondary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                  </div>
+                </motion.a>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── BRANDS STRIP ── */}
-      <section className="py-10 border-y border-border bg-muted/20">
-        <div className="container">
-          <div className="flex flex-wrap items-center justify-between gap-8">
-            <p className="text-xs font-medium tracking-[0.2em] uppercase text-muted-foreground">
-              Brands I&apos;ve worked with
-            </p>
-            <div className="flex flex-wrap items-center gap-8 opacity-50">
-              {brands.map((brand) => (
-                <span
-                  key={brand}
-                  className="text-sm font-semibold text-foreground"
-                >
-                  {brand}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── MARQUEE BAND #2 ── */}
+      <div className="border-b border-border">
+        <KineticMarquee
+          items={marqueeItems2}
+          speed={60}
+          reverse
+          className="py-3"
+        />
+      </div>
 
       {/* ── ADHD SECTION ── */}
-      <section className="section-padding">
+      <section className="section-padding border-b border-border">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* Left: editorial display */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
+              transition={spring}
               viewport={{ once: true }}
             >
-              <p className="text-xs font-medium tracking-[0.2em] uppercase text-muted-foreground mb-4">
+              <p className="text-xs font-medium tracking-[0.3em] uppercase text-muted-foreground mb-4">
                 Neurodiversity
               </p>
+
               <div className="flex items-end gap-6 mb-8">
                 <div
-                  className="font-stat leading-none text-creative"
-                  style={{ fontSize: "clamp(5rem, 14vw, 10rem)" }}
+                  className="font-stat leading-none text-secondary"
+                  style={{ fontSize: "clamp(6rem, 18vw, 13rem)" }}
                 >
                   47
                 </div>
@@ -341,37 +374,40 @@ export default function HomeContent() {
                 ADHD:{" "}
                 <span className="text-creative">My Entrepreneurial Edge</span>
               </h2>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+              <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-lg">
                 Diagnosed at 47. What many see as a challenge became my greatest
                 business asset — hyperfocus, pattern recognition, the ability to
                 see opportunities others miss.
               </p>
 
-              <Button
-                asChild
-                className="rounded-none px-8 py-5 bg-creative hover:bg-creative/90 text-white"
-              >
-                <Link href="/adhd">Neurodiversity in Business</Link>
-              </Button>
+              <MagneticButton>
+                <Button
+                  asChild
+                  className="rounded-none px-8 py-5 bg-creative hover:bg-creative/90 text-white"
+                >
+                  <Link href="/adhd">Neurodiversity in Business</Link>
+                </Button>
+              </MagneticButton>
             </motion.div>
 
-            {/* Right: trait list */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.15 }}
+              transition={{ ...spring, delay: 0.15 }}
               viewport={{ once: true }}
-              className="space-y-0 divide-y divide-border border-t border-b border-border mt-4 lg:mt-16"
+              className="divide-y divide-border border-t border-b border-border mt-4 lg:mt-20"
             >
               {adhdTraits.map((item) => (
                 <div
                   key={item.trait}
-                  className="py-6 pl-4 border-l-2 border-creative/30 hover:border-creative transition-colors duration-300"
+                  className="group py-6 pl-4 border-l-2 border-creative/20 hover:border-creative transition-colors duration-300"
                 >
-                  <p className="font-semibold text-creative mb-1">
+                  <p className="font-semibold text-creative mb-1 group-hover:text-creative">
                     {item.trait}
                   </p>
-                  <p className="text-muted-foreground text-sm">{item.benefit}</p>
+                  <p className="text-muted-foreground text-sm">
+                    {item.benefit}
+                  </p>
                 </div>
               ))}
             </motion.div>
@@ -380,50 +416,49 @@ export default function HomeContent() {
       </section>
 
       {/* ── FROM ROAD TO BOARDROOM ── */}
-      <section className="section-padding bg-secondary text-secondary-foreground">
+      <section className="section-padding border-b border-border">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={spring}
             viewport={{ once: true }}
             className="mb-16 max-w-2xl"
           >
-            <p className="text-xs font-medium tracking-[0.2em] uppercase text-secondary-foreground/60 mb-4">
+            <p className="text-xs font-medium tracking-[0.3em] uppercase text-secondary mb-4">
               Philosophy
             </p>
-            <h2 className="text-secondary-foreground mb-4">
-              From Road to Boardroom
-            </h2>
-            <p className="text-lg text-secondary-foreground/80 leading-relaxed">
+            <h2 className="mb-4">From Road to Boardroom</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
               The discipline, goal-setting, and performance optimisation from
               ultra-endurance cycling translate directly to building and scaling
               businesses.
             </p>
           </motion.div>
 
-          <div className="divide-y divide-secondary-foreground/20 border-t border-secondary-foreground/20">
-            {roadToBoardroom.map((skill, index) => (
+          <div className="border-t border-border">
+            {roadToBoardroom.map((item, index) => (
               <motion.div
-                key={skill.title}
-                className="flex gap-8 py-10 items-start"
+                key={item.title}
+                className="grid grid-cols-1 md:grid-cols-[180px_1fr_2fr] border-b border-border"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ ...spring, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <div className="font-stat text-[2.5rem] leading-none text-secondary-foreground/30 w-14 flex-shrink-0">
-                  0{index + 1}
+                <div className="py-8 md:py-12 pr-8 flex items-center">
+                  <span className="font-stat text-[clamp(4rem,7vw,6rem)] leading-none text-secondary">
+                    0{index + 1}
+                  </span>
                 </div>
-                <div className="flex items-center gap-4 mr-6 flex-shrink-0">
-                  <skill.Icon className="w-6 h-6 text-secondary-foreground/70" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-secondary-foreground mb-2">
-                    {skill.title}
+                <div className="py-8 md:py-12 md:px-12 md:border-x border-border flex items-center">
+                  <h3 className="text-2xl md:text-3xl font-display font-bold">
+                    {item.title}
                   </h3>
-                  <p className="text-secondary-foreground/70 leading-relaxed">
-                    {skill.description}
+                </div>
+                <div className="pb-8 md:py-12 md:pl-12 flex items-center">
+                  <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
+                    {item.description}
                   </p>
                 </div>
               </motion.div>
@@ -433,42 +468,48 @@ export default function HomeContent() {
       </section>
 
       {/* ── CALL TO ACTION ── */}
-      <section className="section-padding bg-primary text-primary-foreground">
+      <section className="section-padding bg-card">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={spring}
             viewport={{ once: true }}
             className="max-w-4xl"
           >
-            <p className="text-xs font-medium tracking-[0.2em] uppercase text-primary-foreground/50 mb-6">
-              Let&apos;s Build Something
+            <div className="w-12 h-[2px] bg-secondary mb-8" />
+            <p className="text-xs font-medium tracking-[0.3em] uppercase text-muted-foreground mb-6">
+              Next Move
             </p>
-            <h2 className="text-primary-foreground mb-6">
-              Ready to Build Something Extraordinary?
+            <h2 className="mb-6">
+              Got a problem{" "}
+              <span className="text-secondary">worth solving?</span>
             </h2>
-            <p className="text-xl text-primary-foreground/70 mb-10 max-w-2xl leading-relaxed">
-              Whether you need business strategy, want to understand the ADHD
-              advantage, or are curious about my journey — let&apos;s connect.
+            <p className="text-xl text-muted-foreground mb-10 max-w-2xl leading-relaxed">
+              Three businesses built. 4,200 km raced. One diagnosis that
+              reframed everything. If you want strategy from someone who&apos;s
+              actually done it — 60 minutes is enough to change your trajectory.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                asChild
-                size="lg"
-                variant="secondary"
-                className="px-12 py-6 text-base rounded-none font-semibold"
-              >
-                <Link href="/book-call">Book a Consultation</Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="px-12 py-6 text-base rounded-none font-semibold border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-              >
-                <Link href="/portfolio">Explore My Work</Link>
-              </Button>
+              <MagneticButton>
+                <Button
+                  asChild
+                  size="lg"
+                  className="px-12 py-6 text-base rounded-none font-semibold bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                >
+                  <Link href="/book-call">Book a Consultation</Link>
+                </Button>
+              </MagneticButton>
+              <MagneticButton>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="px-12 py-6 text-base rounded-none font-semibold border-foreground/30 hover:bg-foreground hover:text-background"
+                >
+                  <Link href="/portfolio">Explore My Work</Link>
+                </Button>
+              </MagneticButton>
             </div>
           </motion.div>
         </div>
