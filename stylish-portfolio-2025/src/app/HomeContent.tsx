@@ -2,141 +2,85 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import {
-  Hammer,
-  Lightbulb,
-  Bike,
-  Rocket,
+  ArrowUpRight,
   Brain,
-  Target,
-  TrendingUp,
   BarChart3,
   Package,
   Factory,
-  CreditCard,
-  Activity,
+  Target,
   Zap,
   Dumbbell,
   type LucideIcon,
 } from "lucide-react";
 
-interface IdentityFacet {
-  label: string;
-  Icon: LucideIcon;
-  color: string;
-  description: string;
-}
-
-const identityFacets: IdentityFacet[] = [
-  {
-    label: "Builder",
-    Icon: Hammer,
-    color: "text-secondary",
-    description: "3 successful businesses",
-  },
-  {
-    label: "Creator",
-    Icon: Lightbulb,
-    color: "text-accent",
-    description: "Content & products",
-  },
-  {
-    label: "Cyclist",
-    Icon: Bike,
-    color: "text-success",
-    description: "Trans America racer",
-  },
-  {
-    label: "Innovator",
-    Icon: Rocket,
-    color: "text-creative",
-    description: "Market disruptor",
-  },
-  {
-    label: "Neurodiverse",
-    Icon: Brain,
-    color: "text-secondary",
-    description: "ADHD advantage",
-  },
-  {
-    label: "Mentor",
-    Icon: Target,
-    color: "text-accent",
-    description: "Business guidance",
-  },
-  {
-    label: "Consultant",
-    Icon: TrendingUp,
-    color: "text-success",
-    description: "Growth strategy",
-  },
-];
-
 interface Business {
+  num: string;
   title: string;
   subtitle: string;
   description: string;
   metric: string;
-  color: string;
   Icon: LucideIcon;
   url: string;
-  featured?: boolean;
 }
 
 const businessPortfolio: Business[] = [
   {
+    num: "01",
     title: "Postino",
     subtitle: "Marketing & Strategy Consultancy",
-    description: "Empowering UK SMEs with data-driven marketing solutions",
-    metric: "3x Traffic Growth",
-    color: "from-secondary/20 to-accent/20",
+    description:
+      "Empowering UK SMEs with data-driven marketing solutions that compound over time.",
+    metric: "3× Traffic Growth",
     Icon: BarChart3,
     url: "https://www.postino.cc",
   },
   {
+    num: "02",
     title: "Milk Bottle Tops",
     subtitle: "Product Innovation & E-commerce",
-    description: "Reviving nostalgic products with modern sustainability",
+    description:
+      "Reviving nostalgic products with modern sustainability — 30 years and still going.",
     metric: "3M+ Sold Since '93",
-    color: "from-success/20 to-accent/20",
     Icon: Package,
     url: "https://www.milkbottletops.co.uk",
-    featured: true,
   },
   {
+    num: "03",
     title: "Glazing Supplies Direct",
     subtitle: "Manufacturing & B2B Excellence",
-    description: "UK-made glazing solutions trusted by 8,000+ professionals",
-    metric: "£0-£10k/week in 90 days",
-    color: "from-creative/20 to-secondary/20",
+    description:
+      "UK-made glazing solutions trusted by 8,000+ trade professionals.",
+    metric: "£0 → £10k/wk in 90 days",
     Icon: Factory,
     url: "https://www.glazingsuppliesdirect.com",
   },
 ];
 
-interface Client {
-  title: string;
-  category: string;
-  Icon: LucideIcon;
-}
+const heroStats = [
+  { value: "03", label: "Businesses Built" },
+  { value: "£3M+", label: "Revenue Generated" },
+  { value: "4,200", label: "km Across America" },
+  { value: "20+", label: "Years Experience" },
+];
 
-const selectedClients: Client[] = [
+const adhdTraits = [
   {
-    title: "FinTech Scale-Up",
-    category: "UK market entry, brand positioning, leadership consulting",
-    Icon: CreditCard,
+    trait: "Hyperfocus",
+    benefit: "Deep work on critical business challenges",
   },
   {
-    title: "Health Tech",
-    category: "Growth strategy, positioning, automation",
-    Icon: Activity,
+    trait: "Pattern Recognition",
+    benefit: "Spotting market gaps before they're obvious",
   },
   {
-    title: "SaaS Platform",
-    category: "Growth marketing, leadership consulting, brand positioning",
-    Icon: Zap,
+    trait: "Creative Problem-Solving",
+    benefit: "Innovative routes through impossible problems",
+  },
+  {
+    trait: "High Energy",
+    benefit: "Running multiple businesses simultaneously",
   },
 ];
 
@@ -144,410 +88,351 @@ const roadToBoardroom = [
   {
     Icon: Target,
     title: "Goal Setting",
-    description: "Clear objectives with measurable outcomes",
+    description:
+      "Race strategy mapped to board metrics. Clear objectives, measurable outcomes.",
   },
   {
     Icon: Zap,
     title: "Performance",
-    description: "Continuous optimisation and improvement",
+    description:
+      "Continuous optimisation, marginal gains, data-driven iteration.",
   },
   {
     Icon: Dumbbell,
     title: "Resilience",
-    description: "Overcoming setbacks and staying focused",
+    description:
+      "4,200 km teaches you to sit with discomfort until you break through.",
   },
+];
+
+const brands = [
+  "Oakley",
+  "Sony",
+  "Jaguar Land Rover",
+  "Ericsson",
+  "Thales",
+  "Ikano",
+  "Genie Lifting",
 ];
 
 export default function HomeContent() {
   return (
     <main className="min-h-screen overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-16 md:pt-0">
-        {/* Dynamic Background Elements with Interactive Blobs */}
-        <div className="absolute inset-0 pattern-grid opacity-30" />
+      {/* ── HERO ── */}
+      <section className="relative min-h-screen flex items-center pt-24 pb-16 md:pt-32">
+        <div className="absolute inset-0 pattern-grid" />
 
-        {/* Main Floating Identity Elements */}
-        <div className="absolute top-20 right-20 w-32 h-32 cycling-route neuro-shape opacity-20" />
-        <div className="absolute bottom-40 left-20 w-48 h-48 bg-gradient-to-br from-creative/10 to-success/10 neuro-shape" />
-        <div className="absolute top-1/2 left-10 w-24 h-24 bg-gradient-to-br from-accent/20 to-secondary/20 neuro-shape" />
-
-        {/* Mini Interactive Blobs */}
-        <div className="absolute bottom-1/3 right-1/3 w-6 h-6 bg-gradient-to-br from-secondary/40 to-success/40 neuro-shape mini-blob animate-float-2" />
-        <div className="absolute top-3/4 left-1/4 w-10 h-10 bg-gradient-to-br from-creative/25 to-accent/25 neuro-shape mini-blob animate-float-3" />
-        <div className="absolute top-1/6 left-3/4 w-7 h-7 bg-gradient-to-br from-success/35 to-secondary/35 neuro-shape mini-blob animate-float-4" />
-        <div className="absolute bottom-1/4 left-2/3 w-5 h-5 bg-gradient-to-br from-accent/45 to-creative/45 neuro-shape mini-blob animate-float-5" />
-
-        {/* Hero Content */}
         <div className="container relative z-10">
-          <motion.div
-            className="text-center max-w-6xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
+          {/* Tagline */}
+          <motion.p
+            className="text-sm font-medium tracking-[0.2em] uppercase text-muted-foreground mb-8"
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.6 }}
           >
-            {/* Identity Badges */}
-            <motion.div
-              className="hidden md:flex flex-wrap justify-center gap-3 mb-8"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-            >
-              {identityFacets.map((facet, index) => (
-                <motion.div
-                  key={facet.label}
-                  className="flex items-center gap-2 bg-card/80 backdrop-blur-sm border border-border/50 rounded-full px-4 py-2 text-sm font-medium hover:scale-105 transition-transform duration-200"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
-                  whileHover={{ y: -2 }}
-                >
-                  <facet.Icon className={`w-4 h-4 ${facet.color}`} />
-                  <span className={facet.color}>{facet.label}</span>
-                </motion.div>
-              ))}
-            </motion.div>
+            Serial Entrepreneur · Ultra-Distance Cyclist · ADHD Advocate ·
+            Nottingham, UK
+          </motion.p>
 
-            <motion.h1
-              className="gradient-text-vibrant mb-6 md:mb-8 pb-4 text-balance"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
-              From Crossing Continents to
-              <br />
-              <span className="italic font-light">Building Businesses</span>
-            </motion.h1>
+          {/* Name — Massive Syne */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+          >
+            <div className="text-[clamp(4.5rem,11vw,9.5rem)] leading-none font-extrabold tracking-tight font-display">
+              Martin
+            </div>
+            <div className="text-[clamp(4.5rem,11vw,9.5rem)] leading-none font-extrabold tracking-tight font-display">
+              <span className="text-secondary">Cox</span>
+              <span className="text-accent">.</span>
+            </div>
+          </motion.div>
 
+          {/* Animated rule */}
+          <motion.div
+            className="h-px bg-foreground mt-8 mb-10"
+            style={{ transformOrigin: "0 50%" }}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+          />
+
+          {/* Description + CTAs */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start max-w-5xl">
             <motion.p
-              className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 text-pretty leading-relaxed"
+              className="text-lg md:text-xl text-muted-foreground leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={{ duration: 0.7, delay: 0.65 }}
             >
-              Adventure cyclist and content creator turned serial entrepreneur.
-              From 4,200km Trans America races to building £multi-million
-              businesses. Transforming ADHD into entrepreneurial advantage.
+              Adventure cyclist and serial entrepreneur. From 4,200 km Trans
+              America races to building £multi-million businesses. Turning ADHD
+              into competitive advantage since 2007.
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+              className="flex flex-col sm:flex-row gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
+              transition={{ duration: 0.7, delay: 0.75 }}
             >
               <Button
                 asChild
                 size="lg"
-                className="px-12 py-6 text-lg rounded-full font-medium hover:scale-105 transition-transform duration-200 bg-secondary hover:bg-secondary/90"
+                className="px-10 py-6 text-base rounded-none font-semibold bg-secondary hover:bg-secondary/90"
               >
-                <Link href="/about">Explore My Journey</Link>
+                <Link href="/about">My Story</Link>
               </Button>
               <Button
                 asChild
                 variant="outline"
                 size="lg"
-                className="px-12 py-6 text-lg rounded-full font-medium hover:scale-105 transition-transform duration-200 border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+                className="px-10 py-6 text-base rounded-none font-semibold border-foreground hover:bg-foreground hover:text-background"
               >
-                <Link href="/contact">Let&apos;s Work Together</Link>
+                <Link href="/book-call">Work With Me</Link>
               </Button>
             </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-        >
-          <motion.div
-            className="w-6 h-10 border-2 border-accent rounded-full flex justify-center"
-            animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-          >
-            <motion.div
-              className="w-1 h-3 bg-accent rounded-full mt-2"
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-            />
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* Building Portfolio Section */}
-      <section className="section-padding bg-muted/30">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="mb-6">Building Portfolio</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
-              Three distinct businesses, each solving real problems. From
-              marketing strategy to innovative products to manufacturing
-              excellence.
-            </p>
-          </motion.div>
-
-          {/* Dynamic Business Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {businessPortfolio.map((business, index) => (
-              <motion.div
-                key={business.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={
-                  business.featured ? "md:col-span-2 lg:col-span-1" : ""
-                }
-              >
-                <Card className="builder-card group cursor-pointer overflow-hidden h-full">
-                  <div
-                    className={`p-8 h-full bg-gradient-to-br ${business.color} relative overflow-hidden`}
-                  >
-                    {/* Background Pattern */}
-                    <div className="absolute inset-0 pattern-dots opacity-20" />
-
-                    {/* Dynamic Shape */}
-                    <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/5 neuro-shape" />
-
-                    {/* Content */}
-                    <div className="relative z-10 h-full flex flex-col">
-                      <div className="flex items-center justify-between mb-6">
-                        <business.Icon className="w-12 h-12 text-foreground/70" />
-                        <div className="text-sm font-bold bg-white/10 text-accent px-3 py-1 rounded-full">
-                          {business.metric}
-                        </div>
-                      </div>
-
-                      <h3 className="text-2xl font-display font-semibold mb-2 group-hover:text-accent transition-colors duration-300">
-                        {business.title}
-                      </h3>
-
-                      <p className="text-accent font-medium mb-4 text-sm">
-                        {business.subtitle}
-                      </p>
-
-                      <p className="text-muted-foreground mb-6 flex-grow leading-relaxed">
-                        {business.description}
-                      </p>
-
-                      <a
-                        href={business.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Button
-                          variant="outline"
-                          className="w-full rounded-full bg-white/10 border-white/20 hover:bg-white/20 backdrop-blur-sm group-hover:border-accent group-hover:text-accent transition-all duration-300"
-                        >
-                          Explore Business
-                        </Button>
-                      </a>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
           </div>
+
+          {/* Stats strip */}
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-0 border-t border-foreground/20 mt-16 pt-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.9 }}
+          >
+            {heroStats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={`pr-8 ${index > 0 ? "pl-8 border-l border-foreground/20" : ""}`}
+              >
+                <div className="stat-display text-foreground">{stat.value}</div>
+                <div className="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground mt-1">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Selected Clients */}
-      <section className="section-padding">
+      {/* ── BUSINESS PORTFOLIO ── */}
+      <section className="section-padding border-t border-border">
         <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.7 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-16 max-w-2xl"
           >
-            <h2 className="mb-6">Selected Clients</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Trusted by growing businesses across industries
+            <h2 className="mb-4">Building Portfolio</h2>
+            <p className="text-lg text-muted-foreground">
+              Three distinct businesses, each solving a real problem. Built from
+              zero, scaled with intent.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
-            {selectedClients.map((client, index) => (
-              <motion.div
-                key={client.title}
+          <div className="divide-y divide-border border-t border-border">
+            {businessPortfolio.map((biz, index) => (
+              <motion.a
+                key={biz.title}
+                href={biz.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col md:flex-row md:items-center gap-6 py-10 hover:border-secondary transition-colors duration-200"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
                 viewport={{ once: true }}
               >
-                <Card className="p-6 text-center h-full">
-                  <client.Icon className="w-10 h-10 mx-auto mb-4 text-accent" />
-                  <h3 className="font-semibold mb-2">{client.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {client.category}
+                {/* Number */}
+                <div className="font-stat text-[3.5rem] leading-none text-muted-foreground/40 group-hover:text-secondary transition-colors duration-300 w-20 flex-shrink-0">
+                  {biz.num}
+                </div>
+
+                {/* Icon */}
+                <div className="hidden md:flex w-12 h-12 items-center justify-center border border-border group-hover:border-secondary group-hover:text-secondary transition-colors duration-300 flex-shrink-0">
+                  <biz.Icon className="w-5 h-5" />
+                </div>
+
+                {/* Content */}
+                <div className="flex-grow">
+                  <div className="flex flex-wrap items-baseline gap-3 mb-2">
+                    <h3 className="text-2xl font-display font-bold group-hover:text-secondary transition-colors duration-300">
+                      {biz.title}
+                    </h3>
+                    <span className="text-sm text-muted-foreground font-medium">
+                      {biz.subtitle}
+                    </span>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed max-w-xl">
+                    {biz.description}
                   </p>
-                </Card>
-              </motion.div>
+                </div>
+
+                {/* Metric + arrow */}
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  <span className="text-sm font-bold text-accent bg-accent/10 px-3 py-1 border border-accent/20">
+                    {biz.metric}
+                  </span>
+                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-secondary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                </div>
+              </motion.a>
             ))}
           </div>
+        </div>
+      </section>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <p className="text-sm text-muted-foreground mb-8">
-              Some of the other brands I&apos;ve worked with
+      {/* ── BRANDS STRIP ── */}
+      <section className="py-10 border-y border-border bg-muted/20">
+        <div className="container">
+          <div className="flex flex-wrap items-center justify-between gap-8">
+            <p className="text-xs font-medium tracking-[0.2em] uppercase text-muted-foreground">
+              Brands I&apos;ve worked with
             </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-              {[
-                "Oakley",
-                "Sony",
-                "Jaguar Land Rover",
-                "Ericsson",
-                "Thales",
-                "Ikano",
-                "Genie Lifting",
-              ].map((brand) => (
-                <span key={brand} className="text-muted-foreground font-medium">
+            <div className="flex flex-wrap items-center gap-8 opacity-50">
+              {brands.map((brand) => (
+                <span
+                  key={brand}
+                  className="text-sm font-semibold text-foreground"
+                >
                   {brand}
                 </span>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* ADHD Section */}
-      <section className="section-padding bg-gradient-to-br from-creative/5 to-accent/5">
+      {/* ── ADHD SECTION ── */}
+      <section className="section-padding">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* Left: editorial display */}
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.7 }}
               viewport={{ once: true }}
             >
-              <h2 className="mb-6">
-                ADHD: My{" "}
-                <span className="text-creative">Entrepreneurial Edge</span>
-              </h2>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Diagnosed at age 47, what many see as a challenge became my
-                greatest business asset. ADHD brings hyperfocus, pattern
-                recognition, and the ability to see opportunities others miss.
-                Late diagnosis meant years of unconsciously leveraging these
-                strengths.
+              <p className="text-xs font-medium tracking-[0.2em] uppercase text-muted-foreground mb-4">
+                Neurodiversity
               </p>
-              <div className="space-y-4 mb-8">
-                {[
-                  {
-                    trait: "Hyperfocus",
-                    benefit: "Deep work on critical business challenges",
-                  },
-                  {
-                    trait: "Pattern Recognition",
-                    benefit: "Spotting market gaps and opportunities",
-                  },
-                  {
-                    trait: "Creative Problem-Solving",
-                    benefit: "Innovative solutions to complex problems",
-                  },
-                  {
-                    trait: "High Energy",
-                    benefit: "Managing multiple businesses simultaneously",
-                  },
-                ].map((item) => (
-                  <div key={item.trait} className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-creative rounded-full mt-2" />
-                    <div>
-                      <span className="font-semibold text-creative">
-                        {item.trait}:
-                      </span>
-                      <span className="text-muted-foreground ml-2">
-                        {item.benefit}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex items-end gap-6 mb-8">
+                <div
+                  className="font-stat leading-none text-creative"
+                  style={{ fontSize: "clamp(5rem, 14vw, 10rem)" }}
+                >
+                  47
+                </div>
+                <div className="pb-3">
+                  <Brain className="w-10 h-10 text-creative mb-2" />
+                  <p className="text-sm text-muted-foreground leading-snug">
+                    Age diagnosed.
+                    <br />
+                    Superpower unlocked.
+                  </p>
+                </div>
               </div>
+
+              <h2 className="mb-4">
+                ADHD:{" "}
+                <span className="text-creative">My Entrepreneurial Edge</span>
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                Diagnosed at 47. What many see as a challenge became my greatest
+                business asset — hyperfocus, pattern recognition, the ability to
+                see opportunities others miss.
+              </p>
+
               <Button
                 asChild
-                className="rounded-full px-8 py-4 bg-creative hover:bg-creative/90"
+                className="rounded-none px-8 py-5 bg-creative hover:bg-creative/90 text-white"
               >
-                <Link href="/adhd">Learn About Neurodiversity in Business</Link>
+                <Link href="/adhd">Neurodiversity in Business</Link>
               </Button>
             </motion.div>
 
+            {/* Right: trait list */}
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
+              initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
               viewport={{ once: true }}
-              className="relative"
+              className="space-y-0 divide-y divide-border border-t border-b border-border mt-4 lg:mt-16"
             >
-              <div className="aspect-square bg-gradient-to-br from-creative/20 to-accent/5 rounded-3xl neuro-shape flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 pattern-grid opacity-30" />
-                <Brain className="w-24 h-24 text-creative relative z-10" />
-                {/* Neural network visualization */}
-                <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-creative/60 rounded-full animate-pulse" />
+              {adhdTraits.map((item) => (
                 <div
-                  className="absolute top-3/4 right-1/4 w-3 h-3 bg-accent/60 rounded-full animate-pulse"
-                  style={{ animationDelay: "0.5s" }}
-                />
-                <div
-                  className="absolute top-1/2 right-1/3 w-2 h-2 bg-secondary/60 rounded-full animate-pulse"
-                  style={{ animationDelay: "1s" }}
-                />
-              </div>
+                  key={item.trait}
+                  className="py-6 pl-4 border-l-2 border-creative/30 hover:border-creative transition-colors duration-300"
+                >
+                  <p className="font-semibold text-creative mb-1">
+                    {item.trait}
+                  </p>
+                  <p className="text-muted-foreground text-sm">{item.benefit}</p>
+                </div>
+              ))}
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* From Road to Boardroom */}
-      <section className="section-padding">
+      {/* ── FROM ROAD TO BOARDROOM ── */}
+      <section className="section-padding bg-secondary text-secondary-foreground">
         <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.7 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-16 max-w-2xl"
           >
-            <h2 className="mb-6">From Road to Boardroom</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
-              The discipline, goal-setting, and performance optimisation skills
-              from ultra-endurance cycling directly translate to building and
-              scaling businesses.
+            <p className="text-xs font-medium tracking-[0.2em] uppercase text-secondary-foreground/60 mb-4">
+              Philosophy
+            </p>
+            <h2 className="text-secondary-foreground mb-4">
+              From Road to Boardroom
+            </h2>
+            <p className="text-lg text-secondary-foreground/80 leading-relaxed">
+              The discipline, goal-setting, and performance optimisation from
+              ultra-endurance cycling translate directly to building and scaling
+              businesses.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="divide-y divide-secondary-foreground/20 border-t border-secondary-foreground/20">
             {roadToBoardroom.map((skill, index) => (
               <motion.div
                 key={skill.title}
-                initial={{ opacity: 0, y: 30 }}
+                className="flex gap-8 py-10 items-start"
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="text-center"
               >
-                <skill.Icon className="w-12 h-12 mx-auto mb-4 text-accent" />
-                <h3 className="text-xl font-semibold mb-3">{skill.title}</h3>
-                <p className="text-muted-foreground">{skill.description}</p>
+                <div className="font-stat text-[2.5rem] leading-none text-secondary-foreground/30 w-14 flex-shrink-0">
+                  0{index + 1}
+                </div>
+                <div className="flex items-center gap-4 mr-6 flex-shrink-0">
+                  <skill.Icon className="w-6 h-6 text-secondary-foreground/70" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-secondary-foreground mb-2">
+                    {skill.title}
+                  </h3>
+                  <p className="text-secondary-foreground/70 leading-relaxed">
+                    {skill.description}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
+      {/* ── CALL TO ACTION ── */}
       <section className="section-padding bg-primary text-primary-foreground">
         <div className="container">
           <motion.div
@@ -555,22 +440,24 @@ export default function HomeContent() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center max-w-4xl mx-auto"
+            className="max-w-4xl"
           >
-            <h2 className="text-white mb-6">
+            <p className="text-xs font-medium tracking-[0.2em] uppercase text-primary-foreground/50 mb-6">
+              Let&apos;s Build Something
+            </p>
+            <h2 className="text-primary-foreground mb-6">
               Ready to Build Something Extraordinary?
             </h2>
-            <p className="text-xl text-white/80 mb-8 max-w-3xl mx-auto text-pretty">
+            <p className="text-xl text-primary-foreground/70 mb-10 max-w-2xl leading-relaxed">
               Whether you need business strategy, want to understand the ADHD
-              advantage, or are curious about my journey from cycling to
-              entrepreneurship, let&apos;s connect.
+              advantage, or are curious about my journey — let&apos;s connect.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 asChild
                 size="lg"
                 variant="secondary"
-                className="px-12 py-6 text-lg rounded-full font-medium hover:scale-105 transition-transform duration-200"
+                className="px-12 py-6 text-base rounded-none font-semibold"
               >
                 <Link href="/book-call">Book a Consultation</Link>
               </Button>
@@ -578,7 +465,7 @@ export default function HomeContent() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="px-12 py-6 text-lg rounded-full font-medium hover:scale-105 transition-transform duration-200 border-white text-white hover:bg-white hover:text-primary"
+                className="px-12 py-6 text-base rounded-none font-semibold border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground hover:text-primary"
               >
                 <Link href="/portfolio">Explore My Work</Link>
               </Button>

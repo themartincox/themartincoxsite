@@ -10,7 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['var(--font-display)', 'serif'],
+        display: ['var(--font-display)', 'sans-serif'],
+        stat: ['var(--font-display-alt)', 'sans-serif'],
         body: ['var(--font-body)', 'sans-serif'],
       },
       colors: {
